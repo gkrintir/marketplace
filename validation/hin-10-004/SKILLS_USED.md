@@ -1,0 +1,107 @@
+# Skills Used — CMS-HIN-10-004 Open Data Replication
+
+This document records how each CMS analysis skill guided the implementation of the 2010 2.76 TeV PbPb calorimeter dijet quenching analysis (`CMS-HIN-10-004` Open Data replication), where skills had gaps or platform-specific issues on 2010 CMS EDM `RECO` Open Data, and what was done instead.
+
+## Environment Used
+
+- **Python**: `3.11.2` (managed per-script via `uv run --script` and PEP 723 inline metadata)
+- **Core packages**:
+  - `uproot 5.7.7`, `awkward 2.15.0`, `vector 1.9.0`, `hist 2.12.1`, `mplhep 1.3.3`
+  - `scipy 1.17.1`, `numpy 2.4.6`, `typer` (`>=0.12`), `requests`, `aiohttp`
+  - `hepdata-lib` (`>=0.20`), `hepdata-validator` (`>=0.3`), ImageMagick (`/usr/bin/convert`)
+
+---
+
+## Skill-by-Skill Evaluation
+
+### 1. `standalone-script`
+
+- **How it guided the work**: Used directly for all three executable scripts (`analyze_hin10004.py`, `plot_hin10004.py`, `make_hepdata.py`), including the `#!/usr/bin/env -S uv run --script` shebang, `# /// script` PEP 723 metadata block with `requires-python = ">=3.11,<3.14"`, `typer` CLI options (`--max-files`, `--max-mb-files`, `--workers`, `--cache-dir`, `--from-cache`, `-v/--verbose`), and `--help` smoke tests prior to running jobs.
+- **What worked / what was missing**: Worked cleanly on Linux (`env` supports `-S`, `uv` resolved and cached environments in `<0.5 s`). Adding a note on atomic per-file disk caching when streaming hundreds of remote Open Data files over HTTPS would be a helpful addition for cloud/batch environments with command wall-clock timeouts.
+
+### 2. `awkward-array`
+
+- **How it guided the work**: Guided jagged array manipulation throughout `analyze_hin10004.py`: `ak.zip` to bundle per-jet kinematics and EMF, `ak.argsort(..., axis=1, ascending=False)` to sort corrected jets by $p_T$, `ak.pad_none(jets, 2, axis=1)` + `ak.fill_none(..., -1.0)` to extract leading and subleading jets without index errors on 0- or 1-jet events, `ak.any(..., axis=1)` for primary vertex and trigger-filter selection, and `ak.num` + `ak.flatten` / `ak.unflatten` to apply vectorized `Spring10_HI` L2Relative + L3Absolute JEC across jagged jet collections.
+- **Gaps / issues encountered on 2010 CMS EDM `RECO` files**:
+
+  1. **`uproot` `ev.arrays([...])` AST expression fallback on EDM branch names**: On NanoAOD, passing branch names positionally (`ev.arrays(["Jet_pt", ...])`) works when every name exists. On EDM `RECO` branches containing `./` (e.g. `recoCaloJets_iterativeConePu5CaloJets__RECO./...`), if a leaf is missing (such as in unsplit `ZS-v2` files), `uproot` treats the string as a Python math expression and fails in `ast.parse` with `SyntaxError: invalid syntax` at `./`. Using `ev.arrays(filter_name=[...], how=dict)` bypasses expression parsing cleanly.
+  2. **`uproot` default `FSSpecSource` (`aiohttp`) bug, EOS HTTP `multipart/byteranges` batching, & Python GIL `TTree` parsing**: With `aiohttp` installed, `uproot.open("https://opendata.cern.ch/...")` defaults to `FSSpecSource`. Under multi-basket range reads, `fsspec`'s `_cat_ranges` returns `ClientResponseError` / `TimeoutError` exception instances inside the result list instead of raising them, causing `uproot/source/coalesce.py` to crash with `TypeError: 'ClientResponseError' object is not subscriptable`. Furthermore, in `PromptReco-v3` EDM `RECO` files (~1.2–3.9 GB each), small branches such as `edmTriggerResults_TriggerResults__HLT.obj` are split into ~140 tiny `TBasket`s separated by ~28 MB of `CaloTowers` clusters; sequential single-range HTTP requests issue ~215 GETs/file (~36 s/file) and trigger `HTTP 503` rate-limiting under concurrency. Implementing a custom `requests.Session` `PooledHTTPSource` (rejecting OpenShift sticky-session cookies so requests load-balance across backend pods, and batching up to 64 byte ranges per HTTP request via `Range: bytes=s1-e1,s2-e2,...` with binary-safe `Content-Range` parsing of `multipart/byteranges`) plus disk caching of the `ParameterSets` HLT path table cut HTTP requests from **215 down to 8 per file** (`36 s -> ~5.5 s` per file) with zero `503` throttling. Finally, profiling showed `f["Events"]` + `ev.arrays` consumes `~1.07 s` of pure-Python CPU time per file deserializing ~4,000 EDM `TBranch` headers under the GIL (capping a single-process `ThreadPoolExecutor` at `~0.65 files/s`); sharding uncached files across `os.cpu_count()` forked worker processes (`2 processes × 12 threads`) scaled steady-state streaming past `1.04 new files/s` across `2,154` Golden-JSON `HICorePhysics` files (`5,578 files/s` on cached re-aggregation).
+  3. **Split (`PromptReco-v3`) vs unsplit (`ZS-v2`) EDM branches**: `/HICorePhysics/HIRun2010-PromptReco-v3/RECO` was written with `splitLevel=99` (fast `AwkwardForth` primitive leaf branches), whereas `/HIAllPhysics/HIRun2010-ZS-v2/RECO` was written with `splitLevel=0`, where `reco::Vertex` and `reco::CaloJet` raise `ValueError: cannot produce Awkward Arrays for interpretation AsObjects... ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<Double32_t>>`. We verified bit-exact `TBasket` binary unpacking (`0` mismatches vs `library="np"` across 60 events) to avoid pure-Python `AsObjects` GIL overhead.
+
+  4. **EOS XRootD `multipart/byteranges` `\n\n` header delimiter inside binary zlib payloads**: When streaming large compressed `EcalRecHitsEB` baskets over CERN Open Data EOS HTTP (`EOSMULTIPARTBOUNDARY`), EOS separates part headers with `\n\n` (`LF LF`) rather than `\r\n\r\n`. An unbounded `raw.find(b"\r\n\r\n", after)` scans across megabytes of compressed crystal data and matches random `0d 0a 0d 0a` 4-byte sequences inside zlib streams (`9C67F5A4-3FFA-DF11-8C96-0030487C912E.root`), corrupting decompression. Bounding the header scan to `[after, after + 512]` and selecting whichever of `\r\n\r\n` or `\n\n` appears earliest (with a single-range fallback) makes HTTP byte-range streaming 100% deterministic across all `2,154` files.
+  5. **Lossless `hybridBarrelBasicClusters` `seedId` $E_T$ pre-filter + `fBasketSeek` surgical `TBasket` reads for `EcalRecHitsEB`**: Reading all ~1,500–4,000 `EcalRecHitsEB` crystals in every PbPb event downloads tens of megabytes per file, and on unsplit `ZS-v2` files `"Parent/SubBranch" in ev` returns `False` on `uproot` `TTree`s when the branch name contains `/` (requiring `try: ev[br_name] except KeyError:`). Because every `EcalRecHitsEB` crystal with $E_T > 20\text{ GeV}$ seeds a `reco::BasicCluster` (`hybridSuperClusters` threshold `seedTransverseEnergyThreshold = 1.0 GeV`), pre-filtering events using the tiny `hybridBarrelBasicClusters` `seedId` (`EBDetId` `ieta` upper bound on crystal $E_T$) and reading only the exact matching `fBasketEntry` / `fBasketSeek` byte ranges skips ~95–98% of `EcalRecHitsEB` baskets with **0/5,000 false negatives**.
+
+### 3. `vector-awkward`
+
+- **How it guided the work**: Used `vector.register_awkward()` and `ak.zip({"pt": ..., "eta": ..., "phi": ..., "mass": ..., }, with_name="Momentum4D")` on corrected `IC5Calo` jets, computing wrapped azimuthal separations via `np.abs(j1.deltaphi(j2))` into $[0, \pi]$.
+- **What worked / what was missing**: Worked on the first try with zero issues, including automatic propagation of `None` entries on `pad_none` masked slots.
+
+### 4. `hist`
+
+- **How it guided the work**: Guided `Hist.new.Reg(...).StrCat(...).Weight()` booking with explicit axis names/units, UHI category indexing (`h[:, cname].values()`), `plt.style.use(hep.style.CMS)`, `hep.histplot`, and strict Open Data plot labeling (`hep.cms.label("Open Data", data=True, rlabel=r"PbPb 2010 ($\sqrt{s_{\mathrm{NN}}} = 2.76\ \mathrm{TeV}$)")` — never `"CMS Preliminary"`).
+- **Minor issue noted**: Enabling root `logging.basicConfig(level=logging.INFO)` causes `matplotlib.mathtext` to emit verbose `INFO: Substituting symbol ...` and `WARNING: No TeX to Unicode mapping for '\\__radicalbig__'` logs when rendering `\sqrt{...}` under `hep.style.CMS`. Setting `logging.getLogger("matplotlib").setLevel(logging.WARNING)` silences the font-substitution noise cleanly.
+
+### 5. `trigger-efficiency`
+
+- **How it guided the work**: Guided the unbiased `HLT_HIJet50U` turn-on measurement in `analyze_hin10004.py` and `plot_hin10004.py`: using Minimum-Bias `HLT_HIMinBiasHfOrBSC` events across $[20, 90)\text{ GeV}$ and stitching with the lower-threshold single-jet trigger `HLT_HIJet35U` (`hltHI1jet35U::HLT`) at $p_{T,1} \ge 90\text{ GeV}$ where `HLT_HIJet35U` is already on its 100% plateau (verified directly in the $[80, 120]\text{ GeV}$ overlap region), computing exact 68.27% Clopper–Pearson intervals via `scipy.stats.beta.ppf` (adapted from bundled `scripts/turnon.py`), passing positive error magnitudes `[eff - lo, hi - eff]` to `ax.errorbar`, and omitting `n_den == 0` bins in HEPData.
+- **Gap on 2010 EDM `RECO` files**: `SKILL.md` focuses on NanoAOD `HLT_*` boolean branches. In `CMSSW_3_9_2_patch5` EDM `RECO`, object-producing jet filters (`hltHI1jet50U::HLT`, `hltHI1jet35U::HLT`) populate `filterKeys_` in `triggerTriggerEvent_hltTriggerSummaryAOD`, whereas L1-seeded minimum-bias paths (`HLT_HIMinBiasHfOrBSC`) leave `filterKeys_` empty (`len == 0`) in every event and must be decoded from `edmTriggerResults_TriggerResults__HLT` matched against `@trigger_paths` in `ParameterSets;1`.
+
+### 6. `hepdata`
+
+- **How it guided the work**: Adapted bundled `assets/make_hepdata.py` to build 9 HEPData YAML tables (`submission.yaml` + 9 data tables) directly from `summary.json`, enforcing the `finite()` guard against `.nan`, explicit Open Data disclaimers (`not an official CMS Collaboration result`, no CMS INSPIRE ID), `SQRT(S)/NUCLEON = 2760 GeV` qualifiers, asymmetric Clopper–Pearson `stat` and JEC `syst` uncertainties, and `hepdata-validate -d .` verification (`VALID=1`).
+- **Platform issue encountered (ImageMagick PDF policy)**: `SKILL.md` and `assets/make_hepdata.py` recommend passing PDF figures to `Table.add_image(...)`. On Debian/Ubuntu Linux, `/etc/ImageMagick-6/policy.xml` blocks PDF coders by default (`RuntimeError: convert-im6.q16: attempt to perform an operation not allowed by the security policy 'PDF'`). Passing the rendered `.png` figures (`plots/fig*.png`) to `Table.add_image(...)` generates all `hepdata/*.png` and `hepdata/thumb_*.png` files cleanly without requiring root edits to `/etc/ImageMagick-6/policy.xml`.
+
+---
+
+## Specification Physics Findings Documented During Validation
+
+1. **`HcalNoiseSummary.nproblemRBXs_` in `CMSSW_3_9_2_patch5` PbPb `RECO`**: `specification.md` (Section "Analysis Steps", item 3) listed `nproblemRBXs_ == 0` alongside `maxzeros_ < 100`. Direct inspection of `HICorePhysics` and `HIAllPhysics` events showed that `HcalNoiseSummary` in `CMSSW_3_9_2_patch5` evaluates `pp` occupancy thresholds across the 72 HB+HE readout boxes, flagging all 36 HB RBXs (`nproblemRBXs_ = 36..38`) in ~97–100% of mid-central and central PbPb collisions (`0 / 93` cleaned `HLT_HIJet50U` events in the 4-file yardstick test had `nproblemRBXs_ == 0`, collapsing `<E_HF>_MB` from `27.5 TeV` to `0.96 TeV`). Following the 2010 CMS Heavy-Ion `EventSelection_cff.py` (`hcalNoiseFilter` in `HeavyIonsAnalysis/Configuration`), HCAL noise rejection cuts on `maxzeros_ < 100` (with sanity check `0 <= nproblemRBXs_ <= 72`) together with pixel–HF beam-scraping compatibility and leading-jet ECAL `EMF >= 0.01` spike rejection, recovering the expected 50% / 20% / 10% / 10% / 10% Minimum-Bias HF centrality fractions (`0.499, 0.201, 0.095, 0.099, 0.105` on the 4-file yardstick test).
+2. **`HiEcalRecHitSpikeFilter` (`EcalRecHitsEB`) APD spike cleaning & photon- vs jet-scale `minEt` threshold in central PbPb**: Round-1 clean-context ARC validation revealed that `EMF >= 0.01` rejects pure-HCAL noise, whereas single-crystal Run-1 **ECAL Barrel APD spikes** have $\mathrm{EMF} \approx 1.0$ and pile up at the barrel boundary $|\eta_{\mathrm{EB}}| = 1.479$ (`|ieta| = 85`, where `avoidIeta85` is `False` in `CMSSW_3_9_2_patch5`), inflating inclusive mono-jet denominators (`p_{T,1} > 120 GeV`). Implementing the exact `HiEcalRecHitSpikeFilter` (`1 - E_4/E_1 > 0.95` or `|time| > 4.0 ns`, `avoidIeta85 = False`) eliminated the barrel-edge mono-jet pileup (`196/539` $\rightarrow$ `4/336` failed recoil; `0/44` mono-jets), restoring the subleading-jet conditional efficiency (`87.16%` vs `87.38%`, `-0.26σ`) and upgrading `R_B(A_J < 0.15)` (`T7`) from `TENSION` to `CONSISTENT` (`0.398` in `50–100%`, `0.2253` in `0–10%`). Simultaneously, Round-2 ARC validation uncovered a subtle second-order detector effect: applying the photon-analysis default `minEt = 20.0 GeV` as a whole-event veto rejects `5.49%` of central `0–10%` Minimum-Bias collisions (vs `0.18%` in `50–100%` MB) due to multiplicity-scaling slow-neutron APD hits of `20–50 GeV`, explaining why `CMS-HIN-10-004` Table 1's jet-analysis ECAL cleaning (`97.66%` vs `94.31%`) used a higher jet-scale `minEt` (`~50 GeV`) or object-level spike rejection.
+
+---
+
+## ARC Validation Review — Skills Evaluation (`validate_hin10004.py`)
+
+This section records how the skills performed during the independent Analysis Review Committee (ARC) validation against `CMS-HIN-10-004` (`Phys. Rev. C 84, 024906 (2011)`, `arXiv:1102.1957`).
+
+### 1. `standalone-script`
+
+- **What helped**: Guided the structure of `validate_hin10004.py` (`#!/usr/bin/env -S uv run --script`, PEP 723 `# /// script` block, `typer` CLI options `--base-dir`, `--outdir`, `--json-out`, `-v/--verbose`, and `--help` smoke test before execution).
+- **What was adjusted**: `SKILL.md` templates default to `requires-python = ">=3.13"`, whereas the VM's pre-installed Python is `3.11.2`. Setting `requires-python = ">=3.11"` allowed `uv` to reuse the local Python 3.11 interpreter and resolve all 32+11 packages in `< 0.5 s` without downloading a separate Python toolchain.
+
+### 2. `hist` (including `references/plotting-cms.md`)
+
+- **What helped**: `Hist.new.Reg(...).StrCat(...).Weight()`, `Hist.new.Var(...).Weight()`, `hep.style.CMS`, `hep.histplot(..., histtype="step" / "errorbar" / "fill")`, 2-row `gridspec_kw={"height_ratios": [3, 1.15]}` ratio panels, `NaN` masking of unpopulated ratio bins, and explicit `"Open Data"` labeling (`hep.cms.label("Open Data", data=True, ...)` — never presenting Open Data results as official CMS Collaboration results).
+- **What was wrong or missing & what we did instead**:
+  1. **Vertical `ylabel` collisions on 2-panel ratio figures under `hep.style.CMS`**: `mplhep`'s `CMS` style sets `axes.labelsize = 24` and `yaxis.labellocation = "top"`. On two-row comparison+ratio figures (`height_ratios = [3, 1.15]`), omitting explicit font sizes and alignment causes the bottom panel's top-aligned 24 pt y-axis label (`"Open Data / CMS"`) to collide directly with the bottom of the upper panel's y-axis label. Passing explicit `fontsize=15.5` on the top panel, `fontsize=13, loc="center"` on the bottom ratio panel, and calling `fig.align_ylabels([ax_top, ax_bot])` eliminated all label overlaps cleanly (verified by visually inspecting every rendered PNG).
+  2. **`matplotlib.mathtext` font warnings on `\sqrt{...}`**: As also noted by the analysis agent, setting `logging.getLogger("matplotlib").setLevel(logging.ERROR)` suppresses repetitive `No TeX to Unicode mapping for '\\__radicalbig__'` warnings when rendering `\sqrt{s_{\mathrm{NN}}}`.
+
+### 3. `trigger-efficiency` (including `scripts/turnon.py`)
+
+- **What helped**: Guided exact 68.27% Clopper–Pearson interval calculation via `scipy.stats.beta.ppf` and proper asymmetric error propagation (`[eff - lo, hi - eff]`) when comparing `HLT_HIJet50U` turn-on curves across `[20, 160] GeV`.
+- **What was missing & what we did instead**: `TrigEffCorrected151058and151025.C` from 2010 CMS ROOT 5.22 used `TGraphAsymmErrors::BayesDivide`, which computes shortest **highest-posterior-density (HPD)** 68.27% intervals on $\mathrm{Beta}(k+1, n-k+1)$ rather than central quantile Clopper–Pearson intervals. Implementing `root_bayes_hpd` via `scipy.optimize.minimize_scalar` allowed us to invert the `.C` macro's floating-point efficiencies and asymmetric error bars back into **exact integer $(k, n)$ counts** (verified to $\le 1.6 \times 10^{-4}$ across all 19 points), enabling exact lossless rebinning onto the common 12-bin `[20, 160] GeV` comparison grid.
+
+### 4. `hepdata` (including `references/validation-and-submission.md`)
+
+- **What helped**: Guided the schema audit (`hepdata-validate -d .`), Open Data attribution check (confirming `NOT an official CMS Collaboration result` and absence of a CMS `inspire_id` claim), and uncertainty-completeness audit across all 9 student YAML tables.
+- **Important `hepdata_lib` pitfall uncovered during ARC review**: `hepdata_lib.Variable(..., is_binned=False)` defaults to `digits=5` significant-figure rounding even when fed Python `int` counts. In the student's `event_selection_cutflow.yaml`, this silently rounded exact 7-digit integer event counts (`2,452,052` $\rightarrow$ `2452100` and `2,333,644` $\rightarrow$ `2333600`). Note also that in `hepdata_lib 0.20`, `digits` is an **instance attribute** (`v.digits = 9`, set _before_ `v.values = ...`), **not** a keyword argument to `Variable.__init__()` (`TypeError: Variable.__init__() got an unexpected keyword argument 'digits'`). `hepdata`'s `SKILL.md` and `assets/make_hepdata.py` should set `v.digits = 9` on unbinned integral `Variable` columns whenever counts exceed $10^5$.
+
+### 5. Round 2 ARC Re-Review Additions (`validate_hin10004.py`)
+
+- **Objective pull/$p$-value verdict functions & scientific $p$-value formatting (`hist` / `standalone-script`)**: During Round 2 re-validation, `T5` (`MinBias` $\sum E_{\mathrm{HF}}$ shape) shifted from $p = 0.0028$ ($2.99\sigma$) to $p = 6.97 \times 10^{-5}$ ($3.98\sigma$). Standard `f"{pval:.3f}"` plot text formatting underflows $p < 5 \times 10^{-4}$ to `"p = 0.000"`; adding a LaTeX scientific formatter (`7.0 \times 10^{-5}`) and computing all `CONSISTENT` / `TENSION` / `INCONSISTENT` verdicts directly from `scipy.stats.norm.isf(0.5 * p)` and bin pulls prevented stale Round 1 text or misleading `0.000` annotations.
+- **Visual verification of dynamic annotation boxes (`hist`)**: Re-scaling `diag_ecal_barrel_spike_origin.png` after `HiEcalRecHitSpikeFilter` eliminated the $12\times$ barrel-edge spike peak changed the top-panel y-range from `[0, 5.5]` to `[0, 2.02]`, initially causing the upper-left legend to clip an annotation box placed at mid-height. Inspecting every regenerated PNG with `view_file` caught the overlap immediately so coordinates (`(0.50, 0.42)` with `ylim(0, 2.02)`) could be adjusted cleanly.
+- **`hepdata_lib` integer precision fix verified (`hepdata`)**: Confirmed that setting `v.digits = 9` on the unbinned `Events remaining` `Variable` in `make_hepdata.py` resolved both 7-digit rounding mismatches (`2,452,052` and `2,333,644`) while passing `hepdata-validate -d .` cleanly.
+
+---
+
+## Validation of the `heavy-ion-reco` Skill
+
+After writing `plugins/cms/skills/heavy-ion-reco/SKILL.md`, its two reference guides (`references/tested-2010-pbpb.md` and `references/edm-reco-streaming.md`), and the standalone helper `scripts/hi_ecal_spike_filter.py`, we verified the skill against the 2010 PbPb `HICorePhysics` Open Data inputs:
+
+- **What worked & matched**:
+  1. `hi_ecal_spike_filter.py --self-test` passed `6/6` crystal-geometry, Swiss-cross, timing, `|ieta| = 85` boundary, and `seedId` $E_T$ upper-bound checks (`SELF_TEST=PASS`).
+  2. Running `hi_ecal_spike_filter.py` over HTTPS on `HICorePhysics` run `151238` (`92004464-88F1-DF11-A6EF-001D09F23A20.root`, `--max-events 200 --min-et 20.0`) narrowed `200` events down to `PREFILTER_CANDIDATES=40` via the lossless `hybridBarrelBasicClusters` `seedId` pre-filter and produced `PASSED=162`, `REJECTED=38` (`PASS_FRACTION=0.810000`) — bit-identical (`0` differences) to an un-prefiltered full crystal scan over all 200 events.
+  3. Canonical Pattern 1 (`recoCentrality_hiCentrality__RECO` $\sum E_{\mathrm{HF}}$ and HF coincidence) ran directly on the same file (`MEAN_HF_GEV = 35050.4`).
+- **Issues caught during skill verification and fixed before commit**:
+  1. Calling `branch.file.source.chunks(ranges, notifications=None)` worked on our custom `PooledHTTPSource`, but raised `AttributeError: 'NoneType' object has no attribute 'put'` in `uproot`'s built-in `uproot.source.http.HTTPSource.handle_multipart`. Passing `notifications=queue.Queue()` works across both handlers and was fixed in `scripts/hi_ecal_spike_filter.py` and documented in `references/edm-reco-streaming.md`.
+  2. `ev.arrays(filter_name=[full_slash_path], how=dict)` returns dictionary keys named after the leaf `TBranch` (`recoCentrality_hiCentrality__RECO.obj.etHFhitSumPlus_`), without the parent `recoCentrality_hiCentrality__RECO./` slash prefix; updated both `SKILL.md` Canonical Pattern 1 and `scripts/hi_ecal_spike_filter.py` accordingly.
