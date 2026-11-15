@@ -78,12 +78,17 @@ def binned_x(name, edges, units="GeV"):
     return v
 
 
-def y_var(name, values, units="", qualifiers=None, zero_ok=False):
+def y_var(name, values, units="", qualifiers=None, zero_ok=False, digits=None):
     """zero_ok=True sets hepdata_lib's zero_uncertainties_warning=False (values without errors).
-    Integers stay integers (counts are written as 45, not 45.0)."""
+    Integers stay exact integers (hepdata_lib defaults to 5 sig figs unless v.digits is raised before v.values)."""
+    vals_list = list(values)
     v = Variable(name, is_independent=False, is_binned=False, units=units,
                  zero_uncertainties_warning=not zero_ok)
-    v.values = finite(name, [int(x) if isinstance(x, numbers.Integral) else float(x) for x in values])
+    if digits is not None:
+        v.digits = int(digits)
+    elif vals_list and all(isinstance(x, numbers.Integral) and not isinstance(x, bool) for x in vals_list):
+        v.digits = max(5, max((len(str(abs(int(x)))) for x in vals_list), default=5))
+    v.values = finite(name, [int(x) if isinstance(x, numbers.Integral) and not isinstance(x, bool) else float(x) for x in vals_list])
     for k, q in (qualifiers or {}).items():
         v.add_qualifier(k, q)
     return v

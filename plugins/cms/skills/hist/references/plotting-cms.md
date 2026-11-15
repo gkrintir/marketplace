@@ -54,8 +54,9 @@ ratio = np.divide(d, tot, out=np.full_like(d, np.nan, dtype=float), where=ok)
 err = np.divide(np.sqrt(d), tot, out=np.full_like(d, np.nan, dtype=float), where=ok)
 rax.errorbar(h_data.axes[0].centers, ratio, yerr=err, fmt="o", color="black")
 rax.axhline(1, ls="--", color="gray")
-rax.set_ylabel("Data / MC")
+rax.set_ylabel("Data / MC", fontsize=14, loc="center")  # avoids colliding with top-aligned upper ylabel
 rax.set_xlabel(h_data.axes[0].label)
+fig.align_ylabels([ax, rax])
 ```
 
 - `hep.histplot` accepts a list of histograms with `stack=True`.

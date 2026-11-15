@@ -133,6 +133,13 @@ ranges and binning are in
 - **Flow bins** are on by default. Values outside the axis land in
   under/overflow and are not shown. Check `h[hist.overflow]` when totals don't
   match.
+- **Ratio-panel y-axis label collides with the upper panel.** `hep.style.CMS`
+  sets `axes.labelsize = 24` and `yaxis.labellocation = "top"`. On two-row
+  figures (`height_ratios=[3, 1]`), pass `rax.set_ylabel("Data / MC", fontsize=14, loc="center")`
+  and call `fig.align_ylabels([ax, rax])`.
+- **`No TeX to Unicode mapping for '\\__radicalbig__'`** when `logging.INFO` is
+  enabled and labels contain `\sqrt{...}`: silence matplotlib's font-fallback
+  chatter with `logging.getLogger("matplotlib").setLevel(logging.ERROR)`.
 - **Units are GeV** in NanoAOD. Put units in axis labels (`[GeV]`), and use raw
   strings for LaTeX (`r"$p_{T}$"`). In f-strings, double the braces.
 
