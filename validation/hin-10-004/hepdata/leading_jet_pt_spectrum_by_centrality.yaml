@@ -1,253 +1,253 @@
 dependent_variables:
-- header:
-    name: (1/N_dijet) dN/dpT1 [50-100%]
-    units: GeV^-1
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 50-100%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.0037171
-    value: 0.026804
-  - errors:
-    - label: stat
-      symerror: 0.0022469
-    value: 0.0097938
-  - errors:
-    - label: stat
-      symerror: 0.0019287
-    value: 0.0072165
-  - errors:
-    - label: stat
-      symerror: 0.0013638
-    value: 0.0036082
-  - errors:
-    - label: stat
-      symerror: 0.00089281
-    value: 0.0015464
-  - value: 0.0
-  - errors:
-    - label: stat
-      symerror: 0.00051546
-    value: 0.00051546
-  - value: 0.0
-  - errors:
-    - label: stat
-      symerror: 0.00051546
-    value: 0.00051546
-- header:
-    name: (1/N_dijet) dN/dpT1 [30-50%]
-    units: GeV^-1
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 30-50%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.0022119
-    value: 0.028669
-  - errors:
-    - label: stat
-      symerror: 0.0013437
-    value: 0.01058
-  - errors:
-    - label: stat
-      symerror: 0.000836
-    value: 0.0040956
-  - errors:
-    - label: stat
-      symerror: 0.00076316
-    value: 0.003413
-  - errors:
-    - label: stat
-      symerror: 0.00053964
-    value: 0.0017065
-  - errors:
-    - label: stat
-      symerror: 0.0003413
-    value: 0.00068259
-  - errors:
-    - label: stat
-      symerror: 0.00029557
-    value: 0.00051195
-  - errors:
-    - label: stat
-      symerror: 0.00017065
-    value: 0.00017065
-  - errors:
-    - label: stat
-      symerror: 0.00017065
-    value: 0.00017065
-- header:
-    name: (1/N_dijet) dN/dpT1 [20-30%]
-    units: GeV^-1
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 20-30%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.0020833
-    value: 0.02795
-  - errors:
-    - label: stat
-      symerror: 0.0013358
-    value: 0.011491
-  - errors:
-    - label: stat
-      symerror: 0.00095721
-    value: 0.0059006
-  - errors:
-    - label: stat
-      symerror: 0.0006588
-    value: 0.002795
-  - errors:
-    - label: stat
-      symerror: 0.00034722
-    value: 0.0007764
-  - errors:
-    - label: stat
-      symerror: 0.00026895
-    value: 0.00046584
-  - errors:
-    - label: stat
-      symerror: 0.00015528
-    value: 0.00015528
-  - errors:
-    - label: stat
-      symerror: 0.00015528
-    value: 0.00015528
-  - errors:
-    - label: stat
-      symerror: 0.0002196
-    value: 0.00031056
-- header:
-    name: (1/N_dijet) dN/dpT1 [10-20%]
-    units: GeV^-1
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 10-20%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.0017296
-    value: 0.028838
-  - errors:
-    - label: stat
-      symerror: 0.0011551
-    value: 0.012863
-  - errors:
-    - label: stat
-      symerror: 0.00072614
-    value: 0.005083
-  - errors:
-    - label: stat
-      symerror: 0.00038814
-    value: 0.0014523
-  - errors:
-    - label: stat
-      symerror: 0.00023196
-    value: 0.00051867
-  - errors:
-    - label: stat
-      symerror: 0.00020747
-    value: 0.00041494
-  - errors:
-    - label: stat
-      symerror: 0.00017967
-    value: 0.0003112
-  - errors:
-    - label: stat
-      symerror: 0.00017967
-    value: 0.0003112
-  - errors:
-    - label: stat
-      symerror: 0.0001467
-    value: 0.00020747
-- header:
-    name: (1/N_dijet) dN/dpT1 [0-10%]
-    units: GeV^-1
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 0-10%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.0014152
-    value: 0.027037
-  - errors:
-    - label: stat
-      symerror: 0.00092518
-    value: 0.011556
-  - errors:
-    - label: stat
-      symerror: 0.00061531
-    value: 0.0051111
-  - errors:
-    - label: stat
-      symerror: 0.00050783
-    value: 0.0034815
-  - errors:
-    - label: stat
-      symerror: 0.0002963
-    value: 0.0011852
-  - errors:
-    - label: stat
-      symerror: 0.00020951
-    value: 0.00059259
-  - errors:
-    - label: stat
-      symerror: 0.00023424
-    value: 0.00074074
-  - errors:
-    - label: stat
-      symerror: 0.0001283
-    value: 0.00022222
-  - errors:
-    - label: stat
-      symerror: 7.4074e-05
-    value: 7.4074e-05
+  - header:
+      name: (1/N_dijet) dN/dpT1 [50-100%]
+      units: GeV^-1
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 50-100%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.0037171
+        value: 0.026804
+      - errors:
+          - label: stat
+            symerror: 0.0022469
+        value: 0.0097938
+      - errors:
+          - label: stat
+            symerror: 0.0019287
+        value: 0.0072165
+      - errors:
+          - label: stat
+            symerror: 0.0013638
+        value: 0.0036082
+      - errors:
+          - label: stat
+            symerror: 0.00089281
+        value: 0.0015464
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.00051546
+        value: 0.00051546
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.00051546
+        value: 0.00051546
+  - header:
+      name: (1/N_dijet) dN/dpT1 [30-50%]
+      units: GeV^-1
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 30-50%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.0022119
+        value: 0.028669
+      - errors:
+          - label: stat
+            symerror: 0.0013437
+        value: 0.01058
+      - errors:
+          - label: stat
+            symerror: 0.000836
+        value: 0.0040956
+      - errors:
+          - label: stat
+            symerror: 0.00076316
+        value: 0.003413
+      - errors:
+          - label: stat
+            symerror: 0.00053964
+        value: 0.0017065
+      - errors:
+          - label: stat
+            symerror: 0.0003413
+        value: 0.00068259
+      - errors:
+          - label: stat
+            symerror: 0.00029557
+        value: 0.00051195
+      - errors:
+          - label: stat
+            symerror: 0.00017065
+        value: 0.00017065
+      - errors:
+          - label: stat
+            symerror: 0.00017065
+        value: 0.00017065
+  - header:
+      name: (1/N_dijet) dN/dpT1 [20-30%]
+      units: GeV^-1
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 20-30%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.0020833
+        value: 0.02795
+      - errors:
+          - label: stat
+            symerror: 0.0013358
+        value: 0.011491
+      - errors:
+          - label: stat
+            symerror: 0.00095721
+        value: 0.0059006
+      - errors:
+          - label: stat
+            symerror: 0.0006588
+        value: 0.002795
+      - errors:
+          - label: stat
+            symerror: 0.00034722
+        value: 0.0007764
+      - errors:
+          - label: stat
+            symerror: 0.00026895
+        value: 0.00046584
+      - errors:
+          - label: stat
+            symerror: 0.00015528
+        value: 0.00015528
+      - errors:
+          - label: stat
+            symerror: 0.00015528
+        value: 0.00015528
+      - errors:
+          - label: stat
+            symerror: 0.0002196
+        value: 0.00031056
+  - header:
+      name: (1/N_dijet) dN/dpT1 [10-20%]
+      units: GeV^-1
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 10-20%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.0017296
+        value: 0.028838
+      - errors:
+          - label: stat
+            symerror: 0.0011551
+        value: 0.012863
+      - errors:
+          - label: stat
+            symerror: 0.00072614
+        value: 0.005083
+      - errors:
+          - label: stat
+            symerror: 0.00038814
+        value: 0.0014523
+      - errors:
+          - label: stat
+            symerror: 0.00023196
+        value: 0.00051867
+      - errors:
+          - label: stat
+            symerror: 0.00020747
+        value: 0.00041494
+      - errors:
+          - label: stat
+            symerror: 0.00017967
+        value: 0.0003112
+      - errors:
+          - label: stat
+            symerror: 0.00017967
+        value: 0.0003112
+      - errors:
+          - label: stat
+            symerror: 0.0001467
+        value: 0.00020747
+  - header:
+      name: (1/N_dijet) dN/dpT1 [0-10%]
+      units: GeV^-1
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 0-10%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.0014152
+        value: 0.027037
+      - errors:
+          - label: stat
+            symerror: 0.00092518
+        value: 0.011556
+      - errors:
+          - label: stat
+            symerror: 0.00061531
+        value: 0.0051111
+      - errors:
+          - label: stat
+            symerror: 0.00050783
+        value: 0.0034815
+      - errors:
+          - label: stat
+            symerror: 0.0002963
+        value: 0.0011852
+      - errors:
+          - label: stat
+            symerror: 0.00020951
+        value: 0.00059259
+      - errors:
+          - label: stat
+            symerror: 0.00023424
+        value: 0.00074074
+      - errors:
+          - label: stat
+            symerror: 0.0001283
+        value: 0.00022222
+      - errors:
+          - label: stat
+            symerror: 7.4074e-05
+        value: 7.4074e-05
 independent_variables:
-- header:
-    name: Leading jet $p_{T,1}$
-    units: GeV
-  values:
-  - high: 140.0
-    low: 120.0
-  - high: 160.0
-    low: 140.0
-  - high: 180.0
-    low: 160.0
-  - high: 200.0
-    low: 180.0
-  - high: 220.0
-    low: 200.0
-  - high: 240.0
-    low: 220.0
-  - high: 260.0
-    low: 240.0
-  - high: 280.0
-    low: 260.0
-  - high: 300.0
-    low: 280.0
+  - header:
+      name: Leading jet $p_{T,1}$
+      units: GeV
+    values:
+      - high: 140.0
+        low: 120.0
+      - high: 160.0
+        low: 140.0
+      - high: 180.0
+        low: 160.0
+      - high: 200.0
+        low: 180.0
+      - high: 220.0
+        low: 200.0
+      - high: 240.0
+        low: 220.0
+      - high: 260.0
+        low: 240.0
+      - high: 280.0
+        low: 260.0
+      - high: 300.0
+        low: 280.0

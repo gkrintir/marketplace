@@ -13,13 +13,13 @@ Data-driven CMS Open Data replication of the calorimeter dijet momentum imbalanc
 - Triggers:
   - Signal dijet analysis (`/HICorePhysics/HIRun2010-PromptReco-v3/RECO`): inclusive single-jet trigger `HLT_HIJet50U` (requiring L1 uncorrected jet `$p_{T} > 30\text{ GeV}$` and HLT uncorrected jet `$p_{T} > 50\text{ GeV}$`, identified per event via active filter tag `hltHI1jet50U::HLT` with non-empty `filterKeys_` in `triggerTriggerEvent_hltTriggerSummaryAOD__HLT.obj`). Fully efficient for corrected leading jet `$p_{T,1} > 100\text{ GeV}$`.
   - Minimum-bias centrality reference (`/HIAllPhysics/HIRun2010-ZS-v2/RECO` or minimum-bias triggers in `HICorePhysics`): `HLT_HIMinBiasHfOrBSC` (active L1/HLT filter tag `hltL1sHIMinBiasHfOrBSC::HLT` in `triggerTriggerEvent_hltTriggerSummaryAOD__HLT.obj`).
-- MC normalisation: Data-only Open Data measurement (shape-normalized per event or per dijet pair, matching CMS-HIN-10-004 Section III.A). The private 2010 `PYTHIA+DATA` data-mixed embedded simulation used in CMS-HIN-10-004 is not publicly released on CERN Open Data; comparisons are performed directly against the published CMS-HIN-10-004 PbPb data figures, cutflow efficiencies, and official `Analysis2010` reference macros.
+- MC normalisation: Data-only Open Data measurement (shape-normalized per event or per dijet pair, matching CMS-HIN-10-004 Section III.A). The private 2010 `PYTHIA+DATA` data-mixed embedded simulation used in CMS-HIN-10-004 is not publicly released on CERN Open Data; comparisons are performed directly against the published CMS-HIN-10-004 (`Phys. Rev. C 84, 024906`) LaTeX tables/text (`arXiv:1102.1957`) and archived CMS Heavy-Ion `Analysis2010` reference macros in `github.com/CmsHI/CVS_CmsHi` (`Analysis2010/macros/JetAnalysis/plots/`).
 
 ## Histograms
 
 All centrality-resolved histograms use the 5 CMS-HIN-10-004 collision centrality categories: `50-100%` (`$\langle N_{\mathrm{part}} \rangle = 22 \pm 2$`), `30-50%` (`$108 \pm 5$`), `20-30%` (`$187 \pm 5$`), `10-20%` (`$261 \pm 4$`), and `0-10%` (`$355 \pm 3$`), or the 3 merged categories `30-100%`, `10-30%`, and `0-10%` where specified.
 
-1. Total HF Energy Centrality Distribution (Figure 3a equivalent)
+1. Total HF Energy Centrality Distribution (Open Data Figure 3a / `Phys. Rev. C 84, 024906` Figure 3a equivalent)
 
    - x Axis
      - Total forward hadronic calorimeter hit energy sum `$E_{\mathrm{HF,tot}} = (\text{etHFhitSumPlus} + \text{etHFhitSumMinus}) / 1000$` in cleaned minimum-bias events vs `HLT_HIJet50U` events
@@ -29,7 +29,7 @@ All centrality-resolved histograms use the 5 CMS-HIN-10-004 collision centrality
    - Other axes: trigger category (`MinBias`, `HLT_HIJet50U`)
    - Weights: unweighted (normalized to unit integral per trigger category)
 
-2. Single-Jet Trigger Turn-On Curve (Figure 1a equivalent)
+2. Single-Jet Trigger Turn-On Curve (Open Data Figure 1a / `Phys. Rev. C 84, 024906` Figure 2a equivalent)
 
    - x Axis
      - Corrected leading calorimeter jet transverse momentum `$p_{T,1}$` (`$|\eta_{1}| < 2.0$`) in minimum-bias cleaned events (denominator) and events additionally passing `HLT_HIJet50U` (numerator)
@@ -38,7 +38,7 @@ All centrality-resolved histograms use the 5 CMS-HIN-10-004 collision centrality
      - Entries per event: one per cleaned event with at least one jet in `$|\eta| < 2.0$`
    - Weights: unweighted (efficiency with Clopper-Pearson 68% confidence intervals)
 
-3. Subleading vs Leading Jet Transverse Momentum 2D Correlation (Figure 4 equivalent)
+3. Subleading vs Leading Jet Transverse Momentum 2D Correlation (Open Data Figure 4 / `Phys. Rev. C 84, 024906` Figure 6 equivalent)
 
    - x Axis: Leading jet `$p_{T,1}\text{ [GeV]}$`, 26 uniform bins from `120` to `250` GeV
    - y Axis: Subleading jet `$p_{T,2}\text{ [GeV]}$`, 40 uniform bins from `50` to `250` GeV
@@ -46,7 +46,7 @@ All centrality-resolved histograms use the 5 CMS-HIN-10-004 collision centrality
    - Other axes: 3 centrality categories (`30-100%`, `10-30%`, `0-10%`)
    - Weights: unweighted
 
-4. Leading Jet Transverse Momentum Spectrum (Figure 5 equivalent)
+4. Leading Jet Transverse Momentum Spectrum (Open Data Figure 5 / `Phys. Rev. C 84, 024906` Figure 7 equivalent)
 
    - x Axis
      - Corrected leading jet transverse momentum `$p_{T,1}$` in selected dijet events (`$p_{T,1} > 120\text{ GeV}$`, `$p_{T,2} > 50\text{ GeV}$`, `$\Delta\phi_{12} > 2\pi/3$`)
@@ -56,7 +56,7 @@ All centrality-resolved histograms use the 5 CMS-HIN-10-004 collision centrality
    - Other axes: 5 centrality categories (`50-100%`, `30-50%`, `20-30%`, `10-20%`, `0-10%`)
    - Weights: unweighted (normalized to event fraction `$(1/N_{\mathrm{dijet}})\, \Delta N / \Delta p_{T,1}$` or unit sum per centrality bin)
 
-5. Dijet Azimuthal Correlation `$\Delta\phi_{12}$` (Figure 6 equivalent)
+5. Dijet Azimuthal Correlation `$\Delta\phi_{12}$` (Open Data Figure 6 / `Phys. Rev. C 84, 024906` Figure 8 equivalent)
 
    - x Axis
      - Azimuthal angle difference `$\Delta\phi_{12} = |\phi_{1} - \phi_{2}|$` wrapped into `$[0, \pi]$` for events with `$p_{T,1} > 120\text{ GeV}$` and `$p_{T,2} > 50\text{ GeV}$` (`$|\eta_{1,2}| < 2.0$`), **without** applying the `$\Delta\phi_{12} > 2\pi/3$` cut
@@ -66,7 +66,7 @@ All centrality-resolved histograms use the 5 CMS-HIN-10-004 collision centrality
    - Other axes: 5 centrality categories (`50-100%`, `30-50%`, `20-30%`, `10-20%`, `0-10%`)
    - Weights: unweighted (normalized to `$(1/N)\, dN/d\Delta\phi_{12}$`)
 
-6. Azimuthal Back-to-Back Fraction `$R_{B}(\Delta\phi_{12} > 3.026)$` vs `$N_{\mathrm{part}}$` (Figure 7 equivalent)
+6. Azimuthal Back-to-Back Fraction `$R_{B}(\Delta\phi_{12} > 3.026)$` vs `$N_{\mathrm{part}}$` (Open Data Figure 7 / `Phys. Rev. C 84, 024906` Figure 9 equivalent)
 
    - x Axis
      - Mean number of participating nucleons `$\langle N_{\mathrm{part}} \rangle$` for each of the 5 centrality classes (`22`, `108`, `187`, `261`, `355`)
@@ -75,17 +75,17 @@ All centrality-resolved histograms use the 5 CMS-HIN-10-004 collision centrality
      - Entries per event: fraction of events with `$p_{T,1} > 120\text{ GeV}$` and `$p_{T,2} > 50\text{ GeV}$` (`$|\eta_{1,2}| < 2.0$`, no `$\Delta\phi_{12} > 2\pi/3$` pre-cut) that satisfy `$\Delta\phi_{12} > 3.026\text{ rad}$`
    - Weights: unweighted (binomial / Clopper-Pearson statistical uncertainties)
 
-7. Dijet Momentum Asymmetry Ratio `$A_{J}$` (Figure 8 equivalent, primary jet-quenching observable)
+7. Dijet Momentum Asymmetry Ratio `$A_{J}$` (Open Data Figure 8 / `Phys. Rev. C 84, 024906` Figure 10 equivalent, primary jet-quenching observable)
 
    - x Axis
      - Dijet transverse momentum asymmetry `$A_{J} = (p_{T,1} - p_{T,2}) / (p_{T,1} + p_{T,2})$` for selected dijet events (`$p_{T,1} > 120\text{ GeV}$`, `$p_{T,2} > 50\text{ GeV}$`, `$|\eta_{1,2}| < 2.0$`, `$\Delta\phi_{12} > 2\pi/3$`)
      - `$A_{J} = (p_{T,1} - p_{T,2}) / (p_{T,1} + p_{T,2})$`
-     - 10 uniform bins from `0.0` to `0.7` (bin width `0.07`, matching the kinematic range of CMS-HIN-10-004 Figure 8) plus fine/full `[0.0, 0.9]` summary check (`13` bins of width `~0.069` or `10` bins `[0, 0.7]`; note CMS-HIN-10-004 Figure 8 uses 13 uniform bins across `[0, 0.91]` with bin width `0.07`, where `$A_{J} < 0.7$` is populated)
+     - 13 uniform bins across `[0, 0.91]` with bin width `0.07` (matching `Phys. Rev. C 84, 024906` Figure 10, where `$A_{J} < 0.7$` is kinematically populated)
      - Entries per event: one per selected dijet event
    - Other axes: 5 centrality categories (`50-100%`, `30-50%`, `20-30%`, `10-20%`, `0-10%`)
    - Weights: unweighted (normalized to event fraction `$\Delta N / N_{\mathrm{dijet}}$` summing to unity in each centrality bin)
 
-8. Balanced Dijet Fraction `$R_{B}(A_{J} < 0.15)$` vs `$N_{\mathrm{part}}$` (Figure 9 equivalent)
+8. Balanced Dijet Fraction `$R_{B}(A_{J} < 0.15)$` vs `$N_{\mathrm{part}}$` (Open Data Figure 9 / `Phys. Rev. C 84, 024906` Figure 11 equivalent)
 
    - x Axis
      - Mean number of participating nucleons `$\langle N_{\mathrm{part}} \rangle$` (`22`, `108`, `187`, `261`, `355`)
@@ -94,9 +94,9 @@ All centrality-resolved histograms use the 5 CMS-HIN-10-004 collision centrality
      - Entries per event: denominator is **all** cleaned `HLT_HIJet50U` events having a leading jet `$p_{T,1} > 120\text{ GeV}$` within `$|\eta_{1}| < 2.0$` (explicitly including mono-jet events with no partner above `50` GeV or with `$\Delta\phi_{12} \le 2\pi/3$`); numerator requires a subleading jet (`$|\eta_{2}| < 2.0$`) with `$p_{T,2} > 50\text{ GeV}$`, `$\Delta\phi_{12} > 2\pi/3$`, and `$A_{J} < 0.15$`
    - Weights: unweighted (Clopper-Pearson 68% statistical intervals)
 
-9. Mean Fractional Imbalance `$\langle (p_{T,1} - p_{T,2}) / p_{T,1} \rangle$` vs `$p_{T,1}$` (Figure 10 equivalent)
+9. Mean Fractional Imbalance `$\langle (p_{T,1} - p_{T,2}) / p_{T,1} \rangle$` vs `$p_{T,1}$` (Open Data Figure 10 / `Phys. Rev. C 84, 024906` Figure 12 equivalent)
    - x Axis
-     - Leading jet `$p_{T,1}\text{ [GeV]}$` in variable bins `[120, 130, 140, 170, 240]` GeV (bin centers `125, 135, 155, 205` GeV, matching `deltaPtOverPt1VsPt.C` for `$p_{T,1} > 120\text{ GeV}$`)
+     - Leading jet `$p_{T,1}\text{ [GeV]}$` in the published `Phys. Rev. C 84, 024906` Figure 12 variable bins `[120, 140, 160, 180, 240]` GeV (bin centers `130, 150, 170, 210` GeV) for `fractional_imbalance_vs_pt1` and `fig10_fractional_imbalance_vs_pt1`, alongside `[120, 130, 140, 170, 240]` GeV (`fractional_imbalance_vs_pt1_cvs_macro`, centers `125, 135, 155, 205` GeV) and `[100, 110, 120, 130, 140, 170, 240]` GeV (`fractional_imbalance_vs_pt1_100_240`) in `summary.json` for cross-checking the archived Dec 13, 2010 `CmsHI/CVS_CmsHi` `deltaPtOverPt1VsPt.C` canvas
      - `$\text{Leading jet } p_{T,1}\text{ [GeV]}$`
      - Profile mean and standard error of the mean of `$(p_{T,1} - p_{T,2}) / p_{T,1}$` per `$p_{T,1}$` bin for selected dijet events (`$p_{T,1} > 120\text{ GeV}$`, `$p_{T,2} > 50\text{ GeV}$`, `$|\eta_{1,2}| < 2.0$`, `$\Delta\phi_{12} > 2\pi/3$`)
    - Other axes: 3 centrality categories (`30-100%`, `10-30%`, `0-10%`)

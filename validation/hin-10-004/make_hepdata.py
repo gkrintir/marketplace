@@ -159,7 +159,7 @@ def build(sub: Submission, args) -> None:
         "HLT_HIJet50U trigger efficiency as a function of corrected leading IC5Calo "
         "jet pT (|eta| < 2.0) in 2.76 TeV PbPb collisions, with 68% Clopper-Pearson "
         "statistical intervals.",
-        "Data from Open Data Figure 1a (CMS-HIN-10-004 Fig. 1a equivalent).",
+        "Data from Open Data Figure 1a (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig. 2a equivalent).",
         ["EFF"],
         image=os.path.join(plots_dir, "fig1a_trigger_turnon.png"),
         phrases=["Heavy Ion", "Jet Quenching", "Trigger Efficiency", "CMS Open Data"],
@@ -186,7 +186,7 @@ def build(sub: Submission, args) -> None:
         "CMS Open Data measurement (not an official CMS result) of the event-normalized "
         "forward hadronic calorimeter total energy sum E_HF in cleaned Minimum-Bias "
         "(HLT_HIMinBiasHfOrBSC) and jet-triggered (HLT_HIJet50U) 2.76 TeV PbPb collisions.",
-        "Data from Open Data Figure 3a (CMS-HIN-10-004 Fig. 3a equivalent).",
+        "Data from Open Data Figure 3a (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig. 3a equivalent).",
         ["N"],
         image=os.path.join(plots_dir, "fig3a_hf_centrality.png"),
         phrases=["Heavy Ion", "Centrality", "Forward Calorimeter", "CMS Open Data"],
@@ -219,7 +219,7 @@ def build(sub: Submission, args) -> None:
         "CMS Open Data measurement (not an official CMS result) of the dijet-normalized "
         "leading calorimeter jet transverse momentum spectrum (1/N_dijet) dN/dpT1 across "
         "five centrality bins for pT1 > 120 GeV, pT2 > 50 GeV, |eta| < 2.0, dphi12 > 2pi/3.",
-        "Data from Open Data Figure 5 (CMS-HIN-10-004 Fig. 5 equivalent).",
+        "Data from Open Data Figure 5 (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig. 7 equivalent).",
         ["1/N DN/DPT"],
         image=os.path.join(plots_dir, "fig5_leading_jet_pt.png"),
         phrases=["Dijet", "Jet Quenching", "Transverse Momentum", "CMS Open Data"],
@@ -244,7 +244,7 @@ def build(sub: Submission, args) -> None:
         "CMS Open Data measurement (not an official CMS result) of the event-normalized "
         "azimuthal angle correlation (1/N) dN/dDeltaPhi12 between leading (pT1 > 120 GeV) "
         "and subleading (pT2 > 50 GeV) jets in |eta| < 2.0 across five PbPb centrality bins.",
-        "Data from Open Data Figure 6 (CMS-HIN-10-004 Fig. 6 equivalent).",
+        "Data from Open Data Figure 6 (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig. 8 equivalent).",
         ["1/N DN/DDPHI"],
         image=os.path.join(plots_dir, "fig6_dijet_dphi.png"),
         phrases=["Dijet", "Azimuthal Correlation", "Jet Quenching", "CMS Open Data"],
@@ -269,7 +269,7 @@ def build(sub: Submission, args) -> None:
         "CMS Open Data measurement (not an official CMS result) of the fraction of "
         "pT1 > 120 GeV, pT2 > 50 GeV dijet candidates satisfying dphi12 > 3.026 rad "
         "as a function of collision centrality and <N_part>, with 68% Clopper-Pearson intervals.",
-        "Data from Open Data Figure 7 (CMS-HIN-10-004 Fig. 7 equivalent).",
+        "Data from Open Data Figure 7 (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig. 9 equivalent).",
         ["RATIO"],
         image=os.path.join(plots_dir, "fig7_rb_dphi_vs_npart.png"),
         phrases=["Dijet", "Azimuthal Correlation", "Npart", "CMS Open Data"],
@@ -299,7 +299,7 @@ def build(sub: Submission, args) -> None:
         "dijet momentum asymmetry distribution AJ = (pT1 - pT2)/(pT1 + pT2) for selected "
         "dijets (pT1 > 120 GeV, pT2 > 50 GeV, |eta| < 2.0, dphi12 > 2pi/3) across five "
         "2.76 TeV PbPb centrality classes. Symmetric Poisson sqrt(N)/N_dijet statistical uncertainties.",
-        "Data from Open Data Figure 8 (CMS-HIN-10-004 Fig. 8 equivalent).",
+        "Data from Open Data Figure 8 (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig. 10 equivalent).",
         ["1/N DN/DAJ"],
         image=os.path.join(plots_dir, "fig8_dijet_asymmetry_aj.png"),
         phrases=["Dijet", "Jet Quenching", "Asymmetry", "PbPb", "CMS Open Data"],
@@ -324,7 +324,7 @@ def build(sub: Submission, args) -> None:
         "fraction R_B(AJ < 0.15) (normalized to all cleaned HLT_HIJet50U events with "
         "pT1 > 120 GeV, |eta1| < 2.0, including mono-jet events) and mean dijet asymmetry "
         "<AJ> across the five PbPb centrality classes, with statistical and JEC systematic uncertainties.",
-        "Data from Open Data Figure 9 (CMS-HIN-10-004 Fig. 9 equivalent).",
+        "Data from Open Data Figure 9 (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig. 11 equivalent).",
         ["RATIO", "MEAN"],
         image=os.path.join(plots_dir, "fig9_rb_aj_vs_npart.png"),
         phrases=["Dijet", "Balanced Fraction", "Jet Quenching", "CMS Open Data"],
@@ -356,8 +356,9 @@ def build(sub: Submission, args) -> None:
         "Mean fractional imbalance vs leading jet pT",
         "CMS Open Data measurement (not an official CMS result) of the profile mean "
         "<(pT1 - pT2)/pT1> as a function of leading jet pT1 in three merged centrality "
-        "classes (30-100%, 10-30%, 0-10%) for selected dijets.",
-        "Data from Open Data Figure 10 (CMS-HIN-10-004 Fig. 10 equivalent).",
+        "classes (30-100%, 10-30%, 0-10%) for selected dijets using the published "
+        "Phys. Rev. C 84, 024906 Fig. 12 binning [120, 140, 160, 180, 240] GeV.",
+        "Data from Open Data Figure 10 (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig. 12 equivalent).",
         ["MEAN"],
         image=os.path.join(plots_dir, "fig10_fractional_imbalance_vs_pt1.png"),
         phrases=["Dijet", "Fractional Imbalance", "Jet Quenching", "CMS Open Data"],

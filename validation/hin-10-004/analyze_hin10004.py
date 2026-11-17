@@ -1212,8 +1212,9 @@ def build_summary_and_histograms(
             },
         }
 
-    # Figure 10: Mean fractional imbalance <(pT1 - pT2)/pT1> vs pT1 in 3 merged centrality bins
-    fi_edges = np.array([120.0, 130.0, 140.0, 170.0, 240.0], dtype=np.float64)
+    # Open Data Fig. 10 (PRC Fig. 12): Mean fractional imbalance <(pT1 - pT2)/pT1> vs pT1
+    # Published Phys. Rev. C 84, 024906 (2011) Fig. 12 binning: [120, 140, 160, 180, 240] GeV (centers 130, 150, 170, 210 GeV)
+    fi_edges = np.array([120.0, 140.0, 160.0, 180.0, 240.0], dtype=np.float64)
     fi_summary: dict[str, Any] = {"pt1_edges": fi_edges.tolist()}
     for mname in MERGED_CENTRALITY_NAMES:
         in_m = (merged_labels == mname) & sel_dijet
@@ -1234,7 +1235,29 @@ def build_summary_and_histograms(
             "sem": sems_m,
         }
 
-    # Full 6-bin [100, 240] GeV profile matching deltaPtOverPt1VsPt.C down to pT1 = 100 GeV
+    # Archived Dec 13, 2010 CmsHI/CVS_CmsHi deltaPtOverPt1VsPt.C 4-bin [120, 240] GeV profile (centers 125, 135, 155, 205 GeV)
+    fi_cvs_edges = np.array([120.0, 130.0, 140.0, 170.0, 240.0], dtype=np.float64)
+    fi_summary_cvs: dict[str, Any] = {"pt1_edges": fi_cvs_edges.tolist()}
+    for mname in MERGED_CENTRALITY_NAMES:
+        in_m = (merged_labels == mname) & sel_dijet
+        p1_m = j50_pt1[in_m]
+        dpt_m = dpt_rel_all[in_m]
+        counts_m, means_m, sems_m = [], [], []
+        for bi in range(len(fi_cvs_edges) - 1):
+            in_b = (p1_m >= fi_cvs_edges[bi]) & (p1_m < fi_cvs_edges[bi + 1])
+            vals = dpt_m[in_b]
+            cnt = int(len(vals))
+            counts_m.append(cnt)
+            means_m.append(float(vals.mean()) if cnt > 0 else 0.0)
+            sems_m.append(float(vals.std(ddof=1) / math.sqrt(cnt)) if cnt > 1 else 0.0)
+        fi_summary_cvs[mname] = {
+            "pt1_edges": fi_cvs_edges.tolist(),
+            "counts": counts_m,
+            "mean": means_m,
+            "sem": sems_m,
+        }
+
+    # Full 6-bin [100, 240] GeV profile matching archived CmsHI/CVS_CmsHi deltaPtOverPt1VsPt.C down to pT1 = 100 GeV
     fi100_edges = np.array([100.0, 110.0, 120.0, 130.0, 140.0, 170.0, 240.0], dtype=np.float64)
     sel_dijet_100 = (j50_pt1 >= 100.0) & (j50_pt2 > 50.0) & (j50_dphi12 > (2.0 * math.pi / 3.0))
     dpt_rel_100 = np.where(sel_dijet_100, (j50_pt1 - j50_pt2) / np.maximum(j50_pt1, 1e-9), -1.0)
@@ -1384,6 +1407,7 @@ def build_summary_and_histograms(
         },
         "per_centrality": per_centrality,
         "fractional_imbalance_vs_pt1": fi_summary,
+        "fractional_imbalance_vs_pt1_cvs_macro": fi_summary_cvs,
         "fractional_imbalance_vs_pt1_100_240": fi_summary_100,
         "pt2_vs_pt1_2d": pt2_vs_pt1_summary,
         "systematics": syst_summary,

@@ -1,267 +1,295 @@
 ---
 additional_resources:
-- description: Created with hepdata_lib 0.21.0
-  location: https://doi.org/10.5281/zenodo.1217998
-comment: 'CMS Open Data study replicating the 2.76 TeV PbPb calorimeter dijet momentum
+  - description: Created with hepdata_lib 0.21.0
+    location: https://doi.org/10.5281/zenodo.1217998
+comment:
+  "CMS Open Data study replicating the 2.76 TeV PbPb calorimeter dijet momentum
   asymmetry and jet quenching measurements of CMS-HIN-10-004 (Phys. Rev. C 84, 024906
   (2011), arXiv:1102.1957) using 2010 CMS Heavy-Ion Open Data records 14010 (/HICorePhysics/HIRun2010-PromptReco-v3/RECO),
   14011 (/HIAllPhysics/HIRun2010-ZS-v2/RECO), and 14202 (Golden JSON). Note: This
   record presents an independent CMS Open Data analysis and is NOT an official CMS
-  Collaboration result.'
+  Collaboration result."
 data_license:
-  description: CC0 enables reusers to distribute, remix, adapt, and build upon the
+  description:
+    CC0 enables reusers to distribute, remix, adapt, and build upon the
     material in any medium or format, with no conditions.
   name: CC0
   url: https://creativecommons.org/publicdomain/zero/1.0/
 ---
 additional_resources:
-- description: Image file
-  location: fig1a_trigger_turnon.png
-- description: Thumbnail image file
-  location: thumb_fig1a_trigger_turnon.png
+  - description: Image file
+    location: fig1a_trigger_turnon.png
+  - description: Thumbnail image file
+    location: thumb_fig1a_trigger_turnon.png
 data_file: trigger_efficiency_vs_leading_jet_pt.yaml
-description: CMS Open Data measurement (not an official CMS result) of the single-jet
+description:
+  CMS Open Data measurement (not an official CMS result) of the single-jet
   HLT_HIJet50U trigger efficiency as a function of corrected leading IC5Calo jet pT
   (|eta| < 2.0) in 2.76 TeV PbPb collisions, with 68% Clopper-Pearson statistical
   intervals.
 keywords:
-- name: observables
-  values:
-  - EFF
-- name: reactions
-  values:
-  - PB PB --> JET JET X
-- name: cmenergies
-  values:
-  - 2760.0
-- name: phrases
-  values:
-  - Heavy Ion
-  - Jet Quenching
-  - Trigger Efficiency
-  - CMS Open Data
-location: Data from Open Data Figure 1a (CMS-HIN-10-004 Fig. 1a equivalent).
+  - name: observables
+    values:
+      - EFF
+  - name: reactions
+    values:
+      - PB PB --> JET JET X
+  - name: cmenergies
+    values:
+      - 2760.0
+  - name: phrases
+    values:
+      - Heavy Ion
+      - Jet Quenching
+      - Trigger Efficiency
+      - CMS Open Data
+location:
+  Data from Open Data Figure 1a (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig.
+  2a equivalent).
 name: Trigger efficiency vs leading jet pT
 ---
 additional_resources:
-- description: Image file
-  location: fig3a_hf_centrality.png
-- description: Thumbnail image file
-  location: thumb_fig3a_hf_centrality.png
+  - description: Image file
+    location: fig3a_hf_centrality.png
+  - description: Thumbnail image file
+    location: thumb_fig3a_hf_centrality.png
 data_file: hf_total_energy_distribution.yaml
-description: CMS Open Data measurement (not an official CMS result) of the event-normalized
+description:
+  CMS Open Data measurement (not an official CMS result) of the event-normalized
   forward hadronic calorimeter total energy sum E_HF in cleaned Minimum-Bias (HLT_HIMinBiasHfOrBSC)
   and jet-triggered (HLT_HIJet50U) 2.76 TeV PbPb collisions.
 keywords:
-- name: observables
-  values:
-  - N
-- name: reactions
-  values:
-  - PB PB --> JET JET X
-- name: cmenergies
-  values:
-  - 2760.0
-- name: phrases
-  values:
-  - Heavy Ion
-  - Centrality
-  - Forward Calorimeter
-  - CMS Open Data
-location: Data from Open Data Figure 3a (CMS-HIN-10-004 Fig. 3a equivalent).
+  - name: observables
+    values:
+      - N
+  - name: reactions
+    values:
+      - PB PB --> JET JET X
+  - name: cmenergies
+    values:
+      - 2760.0
+  - name: phrases
+    values:
+      - Heavy Ion
+      - Centrality
+      - Forward Calorimeter
+      - CMS Open Data
+location:
+  Data from Open Data Figure 3a (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig.
+  3a equivalent).
 name: HF total energy distribution
 ---
 additional_resources:
-- description: Image file
-  location: fig5_leading_jet_pt.png
-- description: Thumbnail image file
-  location: thumb_fig5_leading_jet_pt.png
+  - description: Image file
+    location: fig5_leading_jet_pt.png
+  - description: Thumbnail image file
+    location: thumb_fig5_leading_jet_pt.png
 data_file: leading_jet_pt_spectrum_by_centrality.yaml
-description: CMS Open Data measurement (not an official CMS result) of the dijet-normalized
+description:
+  CMS Open Data measurement (not an official CMS result) of the dijet-normalized
   leading calorimeter jet transverse momentum spectrum (1/N_dijet) dN/dpT1 across
   five centrality bins for pT1 > 120 GeV, pT2 > 50 GeV, |eta| < 2.0, dphi12 > 2pi/3.
 keywords:
-- name: observables
-  values:
-  - 1/N DN/DPT
-- name: reactions
-  values:
-  - PB PB --> JET JET X
-- name: cmenergies
-  values:
-  - 2760.0
-- name: phrases
-  values:
-  - Dijet
-  - Jet Quenching
-  - Transverse Momentum
-  - CMS Open Data
-location: Data from Open Data Figure 5 (CMS-HIN-10-004 Fig. 5 equivalent).
+  - name: observables
+    values:
+      - 1/N DN/DPT
+  - name: reactions
+    values:
+      - PB PB --> JET JET X
+  - name: cmenergies
+    values:
+      - 2760.0
+  - name: phrases
+    values:
+      - Dijet
+      - Jet Quenching
+      - Transverse Momentum
+      - CMS Open Data
+location:
+  Data from Open Data Figure 5 (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig.
+  7 equivalent).
 name: Leading jet pT spectrum by centrality
 ---
 additional_resources:
-- description: Image file
-  location: fig6_dijet_dphi.png
-- description: Thumbnail image file
-  location: thumb_fig6_dijet_dphi.png
+  - description: Image file
+    location: fig6_dijet_dphi.png
+  - description: Thumbnail image file
+    location: thumb_fig6_dijet_dphi.png
 data_file: dijet_azimuthal_correlation_dphi12.yaml
-description: CMS Open Data measurement (not an official CMS result) of the event-normalized
+description:
+  CMS Open Data measurement (not an official CMS result) of the event-normalized
   azimuthal angle correlation (1/N) dN/dDeltaPhi12 between leading (pT1 > 120 GeV)
   and subleading (pT2 > 50 GeV) jets in |eta| < 2.0 across five PbPb centrality bins.
 keywords:
-- name: observables
-  values:
-  - 1/N DN/DDPHI
-- name: reactions
-  values:
-  - PB PB --> JET JET X
-- name: cmenergies
-  values:
-  - 2760.0
-- name: phrases
-  values:
-  - Dijet
-  - Azimuthal Correlation
-  - Jet Quenching
-  - CMS Open Data
-location: Data from Open Data Figure 6 (CMS-HIN-10-004 Fig. 6 equivalent).
+  - name: observables
+    values:
+      - 1/N DN/DDPHI
+  - name: reactions
+    values:
+      - PB PB --> JET JET X
+  - name: cmenergies
+    values:
+      - 2760.0
+  - name: phrases
+    values:
+      - Dijet
+      - Azimuthal Correlation
+      - Jet Quenching
+      - CMS Open Data
+location:
+  Data from Open Data Figure 6 (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig.
+  8 equivalent).
 name: Dijet azimuthal correlation dphi12
 ---
 additional_resources:
-- description: Image file
-  location: fig7_rb_dphi_vs_npart.png
-- description: Thumbnail image file
-  location: thumb_fig7_rb_dphi_vs_npart.png
+  - description: Image file
+    location: fig7_rb_dphi_vs_npart.png
+  - description: Thumbnail image file
+    location: thumb_fig7_rb_dphi_vs_npart.png
 data_file: azimuthal_back-to-back_fraction_vs_npart.yaml
-description: CMS Open Data measurement (not an official CMS result) of the fraction
+description:
+  CMS Open Data measurement (not an official CMS result) of the fraction
   of pT1 > 120 GeV, pT2 > 50 GeV dijet candidates satisfying dphi12 > 3.026 rad as
   a function of collision centrality and <N_part>, with 68% Clopper-Pearson intervals.
 keywords:
-- name: observables
-  values:
-  - RATIO
-- name: reactions
-  values:
-  - PB PB --> JET JET X
-- name: cmenergies
-  values:
-  - 2760.0
-- name: phrases
-  values:
-  - Dijet
-  - Azimuthal Correlation
-  - Npart
-  - CMS Open Data
-location: Data from Open Data Figure 7 (CMS-HIN-10-004 Fig. 7 equivalent).
+  - name: observables
+    values:
+      - RATIO
+  - name: reactions
+    values:
+      - PB PB --> JET JET X
+  - name: cmenergies
+    values:
+      - 2760.0
+  - name: phrases
+    values:
+      - Dijet
+      - Azimuthal Correlation
+      - Npart
+      - CMS Open Data
+location:
+  Data from Open Data Figure 7 (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig.
+  9 equivalent).
 name: Azimuthal back-to-back fraction vs Npart
 ---
 additional_resources:
-- description: Image file
-  location: fig8_dijet_asymmetry_aj.png
-- description: Thumbnail image file
-  location: thumb_fig8_dijet_asymmetry_aj.png
+  - description: Image file
+    location: fig8_dijet_asymmetry_aj.png
+  - description: Thumbnail image file
+    location: thumb_fig8_dijet_asymmetry_aj.png
 data_file: dijet_asymmetry_aj_by_centrality.yaml
-description: CMS Open Data measurement (not an official CMS result) of the event-normalized
+description:
+  CMS Open Data measurement (not an official CMS result) of the event-normalized
   dijet momentum asymmetry distribution AJ = (pT1 - pT2)/(pT1 + pT2) for selected
   dijets (pT1 > 120 GeV, pT2 > 50 GeV, |eta| < 2.0, dphi12 > 2pi/3) across five 2.76
   TeV PbPb centrality classes. Symmetric Poisson sqrt(N)/N_dijet statistical uncertainties.
 keywords:
-- name: observables
-  values:
-  - 1/N DN/DAJ
-- name: reactions
-  values:
-  - PB PB --> JET JET X
-- name: cmenergies
-  values:
-  - 2760.0
-- name: phrases
-  values:
-  - Dijet
-  - Jet Quenching
-  - Asymmetry
-  - PbPb
-  - CMS Open Data
-location: Data from Open Data Figure 8 (CMS-HIN-10-004 Fig. 8 equivalent).
+  - name: observables
+    values:
+      - 1/N DN/DAJ
+  - name: reactions
+    values:
+      - PB PB --> JET JET X
+  - name: cmenergies
+    values:
+      - 2760.0
+  - name: phrases
+    values:
+      - Dijet
+      - Jet Quenching
+      - Asymmetry
+      - PbPb
+      - CMS Open Data
+location:
+  Data from Open Data Figure 8 (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig.
+  10 equivalent).
 name: Dijet asymmetry AJ by centrality
 ---
 additional_resources:
-- description: Image file
-  location: fig9_rb_aj_vs_npart.png
-- description: Thumbnail image file
-  location: thumb_fig9_rb_aj_vs_npart.png
+  - description: Image file
+    location: fig9_rb_aj_vs_npart.png
+  - description: Thumbnail image file
+    location: thumb_fig9_rb_aj_vs_npart.png
 data_file: balanced_dijet_fraction_and_mean_aj_vs_npart.yaml
-description: CMS Open Data measurement (not an official CMS result) of the balanced
+description:
+  CMS Open Data measurement (not an official CMS result) of the balanced
   dijet fraction R_B(AJ < 0.15) (normalized to all cleaned HLT_HIJet50U events with
   pT1 > 120 GeV, |eta1| < 2.0, including mono-jet events) and mean dijet asymmetry
   <AJ> across the five PbPb centrality classes, with statistical and JEC systematic
   uncertainties.
 keywords:
-- name: observables
-  values:
-  - RATIO
-  - MEAN
-- name: reactions
-  values:
-  - PB PB --> JET JET X
-- name: cmenergies
-  values:
-  - 2760.0
-- name: phrases
-  values:
-  - Dijet
-  - Balanced Fraction
-  - Jet Quenching
-  - CMS Open Data
-location: Data from Open Data Figure 9 (CMS-HIN-10-004 Fig. 9 equivalent).
+  - name: observables
+    values:
+      - RATIO
+      - MEAN
+  - name: reactions
+    values:
+      - PB PB --> JET JET X
+  - name: cmenergies
+    values:
+      - 2760.0
+  - name: phrases
+    values:
+      - Dijet
+      - Balanced Fraction
+      - Jet Quenching
+      - CMS Open Data
+location:
+  Data from Open Data Figure 9 (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig.
+  11 equivalent).
 name: Balanced dijet fraction and mean AJ vs Npart
 ---
 additional_resources:
-- description: Image file
-  location: fig10_fractional_imbalance_vs_pt1.png
-- description: Thumbnail image file
-  location: thumb_fig10_fractional_imbalance_vs_pt1.png
+  - description: Image file
+    location: fig10_fractional_imbalance_vs_pt1.png
+  - description: Thumbnail image file
+    location: thumb_fig10_fractional_imbalance_vs_pt1.png
 data_file: mean_fractional_imbalance_vs_leading_jet_pt.yaml
-description: CMS Open Data measurement (not an official CMS result) of the profile
+description:
+  CMS Open Data measurement (not an official CMS result) of the profile
   mean <(pT1 - pT2)/pT1> as a function of leading jet pT1 in three merged centrality
-  classes (30-100%, 10-30%, 0-10%) for selected dijets.
+  classes (30-100%, 10-30%, 0-10%) for selected dijets using the published Phys. Rev.
+  C 84, 024906 Fig. 12 binning [120, 140, 160, 180, 240] GeV.
 keywords:
-- name: observables
-  values:
-  - MEAN
-- name: reactions
-  values:
-  - PB PB --> JET JET X
-- name: cmenergies
-  values:
-  - 2760.0
-- name: phrases
-  values:
-  - Dijet
-  - Fractional Imbalance
-  - Jet Quenching
-  - CMS Open Data
-location: Data from Open Data Figure 10 (CMS-HIN-10-004 Fig. 10 equivalent).
+  - name: observables
+    values:
+      - MEAN
+  - name: reactions
+    values:
+      - PB PB --> JET JET X
+  - name: cmenergies
+    values:
+      - 2760.0
+  - name: phrases
+    values:
+      - Dijet
+      - Fractional Imbalance
+      - Jet Quenching
+      - CMS Open Data
+location:
+  Data from Open Data Figure 10 (CMS-HIN-10-004, Phys. Rev. C 84, 024906 Fig.
+  12 equivalent).
 name: Mean fractional imbalance vs leading jet pT
 ---
 data_file: event_selection_cutflow.yaml
-description: CMS Open Data event selection cutflow (not an official CMS result) across
+description:
+  CMS Open Data event selection cutflow (not an official CMS result) across
   the stratified HICorePhysics RECO sample (CMS-HIN-10-004 Table 1 equivalent).
 keywords:
-- name: observables
-  values:
-  - N
-- name: reactions
-  values:
-  - PB PB --> JET JET X
-- name: cmenergies
-  values:
-  - 2760.0
-- name: phrases
-  values:
-  - Cutflow
-  - Event Selection
-  - Heavy Ion
-  - CMS Open Data
+  - name: observables
+    values:
+      - N
+  - name: reactions
+    values:
+      - PB PB --> JET JET X
+  - name: cmenergies
+    values:
+      - 2760.0
+  - name: phrases
+    values:
+      - Cutflow
+      - Event Selection
+      - Heavy Ion
+      - CMS Open Data
 location: Data from Open Data selection cutflow.
 name: Event selection cutflow

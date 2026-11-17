@@ -15,10 +15,11 @@
 """ARC quantitative validation of the student CMS Open Data study against CMS-HIN-10-004.
 
 Cross-verifies published reference numbers directly from the CMS-HIN-10-004 LaTeX
-source tables (Phys. Rev. C 84, 024906 (2011), arXiv:1102.1957) and official ROOT
-macros (.C), audits the student summary.json and HEPData YAML tables without
-modifying any student file, executes all 12 comparability tests, renders CMS-style
-comparison/ratio plots in plots/comparison/, and writes comparison.json.
+source tables/text (Phys. Rev. C 84, 024906 (2011), arXiv:1102.1957) and archived CMS
+Heavy-Ion Analysis2010 ROOT macros (.C) in github.com/CmsHI/CVS_CmsHi, audits the student
+summary.json and HEPData YAML tables without modifying any student file, executes all 12
+comparability tests, renders CMS-style comparison/ratio plots in plots/comparison/, and
+writes comparison.json.
 
 Fallback invocation if `env -S` is unavailable:
     uv run validate_hin10004.py
@@ -281,6 +282,15 @@ def verify_primary_cms_sources(ref_dir: Path, pub_ref: dict[str, Any]) -> dict[s
         raise RuntimeError("Primary CMS source verification failed against published_reference.json")
 
     return {
+        "source_provenance": {
+            "arxiv_latex_and_figures": "https://arxiv.org/e-print/1102.1957 (Phys. Rev. C 84, 024906 (2011) .tex tables/text and vector .pdf figures; no .C macros in arXiv tarball)",
+            "cmshi_cvs_root_macros": (
+                "https://github.com/CmsHI/CVS_CmsHi/tree/9b9dcd34a1b718e4649ca2ddc34583706dfd5d1c/"
+                "Analysis2010/macros/JetAnalysis/plots (TrigEffCorrected151058and151025.C = PRC Fig. 2a, "
+                "hf_centrality_distribution_mb_jet50_20101126_v1.C = PRC Fig. 3a, and pre-publication "
+                "deltaPtOverPt1VsPt.C saved Dec 13, 2010 with [120, 130, 140, 170, 240] GeV bins)"
+            ),
+        },
         "verified_files": [
             "reference/TrigEffCorrected151058and151025.C",
             "reference/hf_centrality_distribution_mb_jet50_20101126_v1.C",
@@ -810,7 +820,7 @@ def run_test3_turnon(student: dict[str, Any], src_ver: dict[str, Any], outdir: P
     ax_top.axvline(120.0, color="0.35", ls="-.", lw=1.4, label=r"Dijet analysis cut ($p_{T,1} > 120\ \mathrm{GeV}$)")
     ax_top.errorbar(
         centers - 0.8, p_eff, xerr=hw, yerr=[p_el, p_eh], fmt="o", color="black", markersize=6.5, capsize=2,
-        label="CMS Published (HIN-10-004 Fig. 1a, rebinned)",
+        label="CMS HI CVS macro (PRC Fig. 2a, rebinned)",
     )
     ax_top.errorbar(
         centers + 0.8, s_eff, xerr=hw, yerr=[s_el, s_eh], fmt="s", color="#d62728", markersize=6.5, capsize=2,
@@ -842,7 +852,7 @@ def run_test3_turnon(student: dict[str, Any], src_ver: dict[str, Any], outdir: P
 
     return {
         "id": "T3",
-        "name": "HLT_HIJet50U single-jet trigger turn-on curve (Fig. 1a)",
+        "name": "HLT_HIJet50U single-jet trigger turn-on curve (PRC Fig. 2a / Open Data Fig. 1a)",
         "test_level": "absolute",
         "verdict": verdict,
         "plots": plots,
@@ -863,7 +873,8 @@ def run_test3_turnon(student: dict[str, Any], src_ver: dict[str, Any], outdir: P
             "bins": bin_rows,
         },
         "explanation": (
-            f"Rebinned onto the exact common 12-bin grid over [20, 160] GeV by summing exact binomial (k, n) counts, "
+            f"Rebinned onto the exact common 12-bin grid over [20, 160] GeV by summing exact binomial (k, n) counts "
+            f"from CmsHI/CVS_CmsHi TrigEffCorrected151058and151025.C (PRC Fig. 2a), "
             f"the Open Data turn-on curve agrees across the turn-on rise and 100% plateau with chi2/ndf = "
             f"{chi2_all:.2f}/12 = {chi2_all/12.0:.3f} (p = {p_all:.3f}), maximum single-bin pull "
             f"{worst_bin['pull_sigma']:+.2f} sigma ([{worst_bin['pt_low']:.0f}, {worst_bin['pt_high']:.0f}] GeV, "
@@ -932,7 +943,7 @@ def _run_hf_shape_test(
     )
     hep.histplot(
         h_pub, ax=ax_top, histtype="step", color="black", lw=1.8,
-        label=f"CMS Published (HIN-10-004 Fig. 3a, N={int(pub_sum):,})",
+        label=f"CMS HI CVS macro (PRC Fig. 3a, N={int(pub_sum):,})",
     )
     hep.histplot(
         h_od, ax=ax_top, histtype="errorbar", color="#d62728", markersize=5.2,
@@ -1054,14 +1065,21 @@ def _run_hf_shape_test(
 
 
 def run_test6_fig10(student: dict[str, Any], pub_ref: dict[str, Any], outdir: Path) -> dict[str, Any]:
-    """T6 (absolute): Mean fractional dijet imbalance <(pT1-pT2)/pT1> vs pT1 across 3 merged centralities."""
-    fi = student["fractional_imbalance_vs_pt1"]
+    """T6 (absolute): Archived Dec 2010 CMS HI CVS deltaPtOverPt1VsPt.C cross-check + Open Data PRC Fig. 12 profile."""
+    fi_prc12 = student["fractional_imbalance_vs_pt1"]
+    fi = student.get("fractional_imbalance_vs_pt1_cvs_macro", fi_prc12)
     fi100 = student["fractional_imbalance_vs_pt1_100_240"]
+
     edges = np.asarray(fi["pt1_edges"], dtype=float)
     centers = 0.5 * (edges[:-1] + edges[1:])
     hw = 0.5 * np.diff(edges)
 
+    edges_prc = np.asarray(fi_prc12["pt1_edges"], dtype=float)
+    centers_prc = 0.5 * (edges_prc[:-1] + edges_prc[1:])
+    hw_prc = 0.5 * np.diff(edges_prc)
+
     per_cent_metrics = {}
+    prc12_student_bins = {}
     tot_c2_stat = 0.0
     tot_c2_full = 0.0
     tot_ndf = 0
@@ -1078,6 +1096,10 @@ def run_test6_fig10(student: dict[str, Any], pub_ref: dict[str, Any], outdir: Pa
         od_m = np.asarray(fi[mname]["mean"], dtype=float)
         od_s = np.asarray(fi[mname]["sem"], dtype=float)
         od_n = np.asarray(fi[mname]["counts"], dtype=int)
+
+        od_prc_m = np.asarray(fi_prc12[mname]["mean"], dtype=float)
+        od_prc_s = np.asarray(fi_prc12[mname]["sem"], dtype=float)
+        od_prc_n = np.asarray(fi_prc12[mname]["counts"], dtype=int)
 
         pub_pts = [p for p in pub_ref["delta_pt_over_pt1_vs_pt1"][mname]["pbpb_data"] if p["pt1_center_gev"] >= 120.0]
         pub_m = np.array([p["val"] for p in pub_pts], dtype=float)
@@ -1100,36 +1122,41 @@ def run_test6_fig10(student: dict[str, Any], pub_ref: dict[str, Any], outdir: Pa
         ratio_full_err = ratio * np.hypot(od_s / od_m, pub_tot / pub_m)
         rfit = weighted_linear_fit(centers, ratio, ratio_full_err)
 
-        # Draw published systematic boxes
+        # Draw archived CVS macro systematic brackets
         for bx, by, bsy in zip(centers, pub_m, pub_sy):
             rect = plt.Rectangle(
                 (bx - 4.0, by - bsy), 8.0, 2.0 * bsy,
                 facecolor="0.82", edgecolor="0.45", alpha=0.65, lw=0.9,
-                label="CMS syst. bracket" if bx == centers[0] else None,
+                label="CVS macro syst. bracket" if bx == centers[0] else None,
             )
             ax_t.add_patch(rect)
 
         ax_t.errorbar(
             centers - 1.2, pub_m, xerr=None, yerr=pub_s, fmt="o", color="black", markersize=6.8, capsize=2,
-            label="CMS Published (HIN-10-004 Fig. 10)",
+            label="CMS HI CVS macro (Dec 13, 2010)",
         )
         ax_t.errorbar(
-            centers + 1.2, od_m, xerr=hw, yerr=od_s, fmt="s", color="#d62728", markersize=6.8, capsize=2,
-            label=f"Student Open Data ($N={int(od_n.sum())}$)",
+            centers + 1.2, od_m, xerr=hw, yerr=od_s, fmt="s", color="#d62728", markersize=6.5, capsize=2,
+            label=f"Open Data (CVS bins, $N={int(od_n.sum())}$)",
         )
-        ax_t.set_ylim(0.10, 0.58)
+        ax_t.errorbar(
+            centers_prc, od_prc_m, xerr=hw_prc, yerr=od_prc_s, fmt="D", mfc="white", mec="#1f77b4",
+            ecolor="#1f77b4", markersize=5.8, capsize=2, alpha=0.88,
+            label="Open Data (PRC Fig. 12 bins)",
+        )
+        ax_t.set_ylim(0.10, 0.60)
         ax_t.set_xlim(120.0, 240.0)
         ax_t.text(
-            0.06, 0.91,
-            f"Centrality {mname}\n$\\chi^2_{{\\mathrm{{stat+syst}}}}/\\mathrm{{ndf}} = {c2_full:.2f}/{ndf}$",
-            transform=ax_t.transAxes, va="top", fontsize=12.2,
+            0.06, 0.92,
+            f"Centrality {mname}\nCVS macro $\\chi^2_{{\\mathrm{{stat+syst}}}}/\\mathrm{{ndf}} = {c2_full:.2f}/{ndf}$",
+            transform=ax_t.transAxes, va="top", fontsize=11.8,
         )
         if idx == 0:
             ax_t.set_ylabel(r"$\langle (p_{T,1} - p_{T,2}) / p_{T,1} \rangle$", fontsize=14.5)
             hep.cms.text("Open Data", ax=ax_t, fontsize=14.5, loc=0)
         elif idx == 2:
             ax_t.set_title(RLABEL_CMP, loc="right", fontsize=13.5, pad=8)
-            ax_t.legend(loc="lower right", frameon=True, fontsize=10.5)
+            ax_t.legend(loc="lower right", frameon=True, fontsize=9.8)
 
         ax_b.axhline(1.0, color="gray", ls="--", lw=1.1)
         for bx, br, bfe in zip(centers, ratio, ratio_full_err):
@@ -1139,7 +1166,7 @@ def run_test6_fig10(student: dict[str, Any], pub_ref: dict[str, Any], outdir: Pa
         ax_b.set_ylim(0.72, 1.28)
         ax_b.set_xlabel(r"Leading jet $p_{T,1}$ [GeV]", fontsize=13.5)
         if idx == 0:
-            ax_b.set_ylabel("OD / CMS", fontsize=13.5)
+            ax_b.set_ylabel("OD / CVS", fontsize=13.5)
 
         per_cent_metrics[mname] = {
             "n_dijets_student": int(od_n.sum()),
@@ -1156,16 +1183,26 @@ def run_test6_fig10(student: dict[str, Any], pub_ref: dict[str, Any], outdir: Pa
                     "student_val": float(od_m[i]),
                     "student_sem": float(od_s[i]),
                     "student_n": int(od_n[i]),
-                    "published_val": float(pub_m[i]),
-                    "published_stat_err": float(pub_s[i]),
-                    "published_syst_err": float(pub_sy[i]),
+                    "cvs_macro_val": float(pub_m[i]),
+                    "cvs_macro_stat_err": float(pub_s[i]),
+                    "cvs_macro_syst_err": float(pub_sy[i]),
                     "pull_stat_plus_syst": float((od_m[i] - pub_m[i]) / sig_full[i]),
                 }
                 for i in range(ndf)
             ],
         }
+        prc12_student_bins[mname] = [
+            {
+                "pt1_range": [float(edges_prc[i]), float(edges_prc[i + 1])],
+                "pt1_center_gev": float(centers_prc[i]),
+                "student_val": float(od_prc_m[i]),
+                "student_sem": float(od_prc_s[i]),
+                "student_n": int(od_prc_n[i]),
+            }
+            for i in range(len(od_prc_m))
+        ]
 
-    # Extended 6-bin [100, 240] GeV check against full macro
+    # Extended 6-bin [100, 240] GeV check against full archived CVS macro
     c2_6bin_stat = 0.0
     c2_6bin_full = 0.0
     for mname in MERGED_ORDER:
@@ -1197,11 +1234,22 @@ def run_test6_fig10(student: dict[str, Any], pub_ref: dict[str, Any], outdir: Pa
 
     return {
         "id": "T6",
-        "name": "Mean fractional dijet imbalance <(pT1 - pT2)/pT1> vs pT1 (Fig. 10)",
+        "name": "Mean fractional dijet imbalance <(pT1 - pT2)/pT1> vs pT1 (archived Dec 2010 CMS HI CVS macro cross-check; PRC Fig. 12 PDF-only)",
         "test_level": "absolute",
         "verdict": verdict,
         "plots": plots,
         "metrics": {
+            "macro_provenance": (
+                "github.com/CmsHI/CVS_CmsHi commit 9b9dcd34a1b718e4649ca2ddc34583706dfd5d1c, "
+                "Analysis2010/macros/JetAnalysis/plots/deltaPtOverPt1VsPt.C (saved Mon Dec 13 15:07:45 2010)"
+            ),
+            "prc_fig12_published_status": (
+                "arXiv:1102.1957 figures/deltaPtOverPt1_all_cent_20101223v1.pdf (Phys. Rev. C 84, 024906 Fig. 12, "
+                "saved Dec 23, 2010) uses [120, 140, 160, 180, 240] GeV (centers 130, 150, 170, 210 GeV) and has no "
+                "published numerical table or .C macro; not digitized per ARC policy."
+            ),
+            "cvs_macro_pt1_edges_gev": edges.tolist(),
+            "prc_fig12_pt1_edges_gev": edges_prc.tolist(),
             "primary_range_gev": [120.0, 240.0],
             "total_points_primary": tot_ndf,
             "combined_chi2_stat": tot_c2_stat,
@@ -1213,16 +1261,22 @@ def run_test6_fig10(student: dict[str, Any], pub_ref: dict[str, Any], outdir: Pa
             "extended_100_240_18pts_chi2_stat": c2_6bin_stat,
             "extended_100_240_18pts_chi2_stat_plus_syst": c2_6bin_full,
             "per_merged_centrality": per_cent_metrics,
+            "student_prc_fig12_bins": prc12_student_bins,
         },
         "explanation": (
-            f"Across all {tot_ndf} points (4 pT1 bins in [120, 240] GeV x 3 merged centrality classes), the student "
-            f"Open Data fractional imbalance reproduces deltaPtOverPt1VsPt.C with combined chi2/ndf = "
+            f"Matched bin-for-bin on [120, 130, 140, 170, 240] GeV (centers 125, 135, 155, 205 GeV) across 3 merged "
+            f"centrality classes ({tot_ndf} points), the Open Data fractional imbalance agrees with the archived "
+            f"Dec 13, 2010 CMS Heavy-Ion ROOT canvas deltaPtOverPt1VsPt.C (CmsHI/CVS_CmsHi) with chi2/ndf = "
             f"{tot_c2_stat:.2f}/{tot_ndf} (stat, p = {p_stat:.4f}) and {tot_c2_full:.2f}/{tot_ndf} (stat+syst), "
-            f"maximum single-bin stat+syst pull {worst_p_full:+.2f} sigma, and identical centrality ordering "
-            f"({cent_means['30-100%']:.3f} in 30-100% -> {cent_means['10-30%']:.3f} in 10-30% -> "
-            f"{cent_means['0-10%']:.3f} in 0-10%). Extended 18-point [100, 240] GeV check gives chi2/ndf = "
-            f"{c2_6bin_stat:.2f}/18 (stat) and {c2_6bin_full:.2f}/18 (stat+syst). Note: published macro stat errors "
-            f"(~0.03-0.06) reflect uncorrelated TH1::Divide error propagation (~3x larger than sample SEM s/sqrt(N))."
+            f"max stat+syst pull {worst_p_full:+.2f} sigma, and centrality ordering {cent_means['30-100%']:.3f} "
+            f"(30-100%) -> {cent_means['10-30%']:.3f} (10-30%) -> {cent_means['0-10%']:.3f} (0-10%); the 18-point "
+            f"[100, 240] GeV check gives chi2/ndf = {c2_6bin_stat:.2f}/18 (stat) and {c2_6bin_full:.2f}/18 (stat+syst) "
+            f"(note: macro stat errors ~0.03-0.06 reflect uncorrelated TH1::Divide propagation, ~3x sample SEM). "
+            f"Final published Phys. Rev. C 84, 024906 Fig. 12 (deltaPtOverPt1_all_cent_20101223v1.pdf, Dec 23, 2010) "
+            f"uses [120, 140, 160, 180, 240] GeV (centers 130, 150, 170, 210 GeV) and has no numerical table or .C "
+            f"macro (not digitized); exact Open Data values on the PRC Fig. 12 binning (e.g. 0-10% [120, 140) GeV: "
+            f"{prc12_student_bins['0-10%'][0]['student_val']:.4f} +/- {prc12_student_bins['0-10%'][0]['student_sem']:.4f}) "
+            f"are exported in summary.json, fig10_fractional_imbalance_vs_pt1, hepdata/, and metrics.student_prc_fig12_bins."
         ),
     }
 
@@ -1313,7 +1367,7 @@ def run_test7_rb_aj(student: dict[str, Any], outdir: Path) -> dict[str, Any]:
 
     return {
         "id": "T7",
-        "name": "Balanced dijet fraction R_B(A_J < 0.15) vs N_part (Fig. 9 text benchmarks)",
+        "name": "Balanced dijet fraction R_B(A_J < 0.15) vs N_part (PRC Fig. 11 / Open Data Fig. 9 text benchmarks)",
         "test_level": "absolute",
         "verdict": verdict,
         "plots": plots,
@@ -1340,18 +1394,19 @@ def run_test7_rb_aj(student: dict[str, Any], outdir: Path) -> dict[str, Any]:
             "suppression_factor_stat_err": drop_ratio_err,
             "suppression_factor_pull_vs_2_sigma": drop_pull,
             "max_abs_benchmark_pull_sigma": max_bench_pull,
-            "intermediate_bins_note": "30-50%, 20-30%, 10-20% have no published table or .C macro (PDF figure only).",
+            "intermediate_bins_note": "30-50%, 20-30%, 10-20% have no published table or .C macro (PRC Fig. 11 PDF figure only).",
         },
         "explanation": (
-            f"No bin-by-bin table or .C macro exists for Fig. 9, so only the explicit Sec. III.A.3 text benchmarks "
-            f"(~0.45 +/- 9% syst in 50-100%, dropping by ~factor 2 to ~0.225 +/- 11% syst in 0-10%) are tested without "
-            f"digitization. After applying HiEcalRecHitSpikeFilter to remove fake ECAL barrel-edge mono-jets from the "
-            f"inclusive pT1 > 120 GeV denominator, both endpoints agree within ~1 sigma: 50-100% is {rb[0]:.4f} +/- "
-            f"{rb50_stat:.4f}(stat) +/- {syst[0]:.4f}(syst) ({k50}/{n50}, pull {pull_50_stat_only:+.2f} sigma stat-only / "
-            f"{pull_50_full:+.2f} sigma combined) and 0-10% is {rb[4]:.4f} +/- {rb0_stat:.4f}(stat) +/- {syst[4]:.4f}(syst) "
-            f"({k0}/{n0}, pull {pull_0_stat_only:+.2f} sigma stat-only / {pull_0_full:+.2f} sigma combined), with "
-            f"peripheral-to-central suppression ratio {drop_ratio:.2f} +/- {drop_ratio_err:.2f} ({drop_pull:+.2f} sigma vs 2.0). "
-            f"Caveat: student systematics (6.4-9.9% rel.) evaluate JEC scale/tilt only and omit JER (6%) and underlying-event fluctuations (8%)."
+            f"No bin-by-bin table or archived .C macro exists for PRC Fig. 11 (Open Data Fig. 9), so only the explicit "
+            f"Sec. III.A.3 text benchmarks (~0.45 +/- 9% syst in 50-100%, dropping by ~factor 2 to ~0.225 +/- 11% syst in "
+            f"0-10%) are tested without digitization. After applying HiEcalRecHitSpikeFilter to remove fake ECAL barrel-edge "
+            f"mono-jets from the inclusive pT1 > 120 GeV denominator, both endpoints agree within ~1 sigma: 50-100% is "
+            f"{rb[0]:.4f} +/- {rb50_stat:.4f}(stat) +/- {syst[0]:.4f}(syst) ({k50}/{n50}, pull {pull_50_stat_only:+.2f} "
+            f"sigma stat-only / {pull_50_full:+.2f} sigma combined) and 0-10% is {rb[4]:.4f} +/- {rb0_stat:.4f}(stat) +/- "
+            f"{syst[4]:.4f}(syst) ({k0}/{n0}, pull {pull_0_stat_only:+.2f} sigma stat-only / {pull_0_full:+.2f} sigma "
+            f"combined), with peripheral-to-central suppression ratio {drop_ratio:.2f} +/- {drop_ratio_err:.2f} "
+            f"({drop_pull:+.2f} sigma vs 2.0). Caveat: student systematics (6.4-9.9% rel.) evaluate JEC scale/tilt only "
+            f"and omit JER (6%) and underlying-event fluctuations (8%)."
         ),
     }
 
@@ -1680,7 +1735,7 @@ def build_not_comparable_tests(student: dict[str, Any], t8_result: dict[str, Any
     return [
         {
             "id": "T9",
-            "name": "2D subleading vs leading jet (pT1, pT2) distribution (Fig. 4)",
+            "name": "2D subleading vs leading jet (pT1, pT2) distribution (PRC Fig. 6 / Open Data Fig. 4)",
             "test_level": "not comparable",
             "verdict": "NOT COMPARABLE",
             "plots": [],
@@ -1688,17 +1743,17 @@ def build_not_comparable_tests(student: dict[str, Any], t8_result: dict[str, Any
                 "student_merged_counts": {
                     m: int(np.sum(student["pt2_vs_pt1_2d"]["per_merged_centrality"][m])) for m in MERGED_ORDER
                 },
-                "published_source": "figures/dijet_lead_vs_sublead_et_all_cent_20101126_v0.pdf (PDF figure only)",
+                "published_source": "arXiv:1102.1957 figures/dijet_lead_vs_sublead_et_all_cent_20101126_v0.pdf (PRC Fig. 6, PDF figure only)",
             },
             "explanation": (
-                "CMS-HIN-10-004 Fig. 4 has no HEPData record, LaTeX numerical table, or official .C macro in the archive; "
-                "digitizing PDF scatter/box plots is prohibited. Would become shape-comparable if official 2D histogram bin "
-                "contents for Fig. 4 were published on HEPData."
+                "CMS-HIN-10-004 Phys. Rev. C 84, 024906 Fig. 6 (Open Data Fig. 4) has no HEPData record, LaTeX numerical "
+                "table, or archived .C macro; digitizing PDF scatter/box plots is prohibited. Would become shape-comparable "
+                "if official 2D histogram bin contents were published on HEPData."
             ),
         },
         {
             "id": "T10",
-            "name": "Dijet-normalized leading jet pT1 spectra across 5 centralities (Fig. 5)",
+            "name": "Dijet-normalized leading jet pT1 spectra across 5 centralities (PRC Fig. 7 / Open Data Fig. 5)",
             "test_level": "not comparable",
             "verdict": "NOT COMPARABLE",
             "plots": [],
@@ -1706,48 +1761,49 @@ def build_not_comparable_tests(student: dict[str, Any], t8_result: dict[str, Any
                 "student_n_bins": 9,
                 "student_range_gev": [120.0, 300.0],
                 "student_dijet_counts": {c: int(pc[c]["n_dijet"]) for c in CENTRALITY_ORDER},
-                "published_source": "figures/dijet_leadingjet_all_cent_20101126_v0.pdf (PDF figure only)",
+                "published_source": "arXiv:1102.1957 figures/dijet_leadingjet_all_cent_20101126_v0.pdf (PRC Fig. 7, PDF figure only)",
             },
             "explanation": (
-                "CMS-HIN-10-004 Fig. 5 presents detector-level (unfolded-free) event-normalized leading-jet spectra as a "
-                "PDF figure without published numerical tables or .C macros. Would become shape-comparable if official "
-                "detector-level bin contents and statistical uncertainties for Fig. 5(b)-(f) were released on HEPData."
+                "CMS-HIN-10-004 Phys. Rev. C 84, 024906 Fig. 7 (Open Data Fig. 5) presents detector-level (unfolded-free) "
+                "event-normalized leading-jet spectra as a PDF figure without published numerical tables or .C macros. Would "
+                "become shape-comparable if official detector-level bin contents and statistical uncertainties were released on HEPData."
             ),
         },
         {
             "id": "T11",
-            "name": "Dijet azimuthal correlation dN/dDeltaPhi12 and R_B(dphi12 > 3.026) vs N_part (Figs. 6 & 7)",
+            "name": "Dijet azimuthal correlation dN/dDeltaPhi12 and R_B(dphi12 > 3.026) vs N_part (PRC Figs. 8 & 9 / Open Data Figs. 6 & 7)",
             "test_level": "not comparable",
             "verdict": "NOT COMPARABLE",
             "plots": [],
             "metrics": {
                 "student_rb_dphi_gt_3026": {c: float(pc[c]["rb_dphi_gt_3026"]) for c in CENTRALITY_ORDER},
                 "pythia_unembedded_median_reference": 0.50,
-                "published_source": "figures/dijet_dphi_all_cent_20101126_v0.pdf and RB_dphi_3026_th50_vs_Npart20101216v1.pdf (PDF only)",
+                "published_source": "arXiv:1102.1957 figures/dijet_dphi_all_cent_20101126_v0.pdf (PRC Fig. 8) and RB_dphi_3026_th50_vs_Npart20101216v1.pdf (PRC Fig. 9, PDF only)",
             },
             "explanation": (
-                f"Neither Fig. 6 nor Fig. 7 has a published HEPData table, .C macro, or PbPb numerical values in results.tex "
-                f"(only the unembedded PYTHIA median threshold 3.026 rad -> 0.50 is stated in text; student peripheral 50-100% "
-                f"is {rb_dp_50:.3f} +/- {rb_dp_50_e:.3f} and central 0-10% is {rb_dp_0:.3f} +/- {rb_dp_0_e:.3f}). Would become "
-                f"shape/absolute-comparable with official CMS HEPData tables for Figs. 6-7."
+                f"Neither PRC Fig. 8 (Open Data Fig. 6) nor PRC Fig. 9 (Open Data Fig. 7) has a published HEPData table, "
+                f"archived .C macro, or PbPb numerical values in results.tex (only the unembedded PYTHIA median threshold "
+                f"3.026 rad -> 0.50 is stated in text; student peripheral 50-100% is {rb_dp_50:.3f} +/- {rb_dp_50_e:.3f} and "
+                f"central 0-10% is {rb_dp_0:.3f} +/- {rb_dp_0_e:.3f}). Would become shape/absolute-comparable with official "
+                f"CMS HEPData tables for PRC Figs. 8-9."
             ),
         },
         {
             "id": "T12",
-            "name": "Bin-by-bin 5-centrality dijet asymmetry A_J distributions and <A_J> (Fig. 8)",
+            "name": "Bin-by-bin 5-centrality dijet asymmetry A_J distributions and <A_J> (PRC Fig. 10 / Open Data Fig. 8)",
             "test_level": "not comparable",
             "verdict": "NOT COMPARABLE",
             "plots": [],
             "metrics": {
                 "student_aj_mean": {c: float(pc[c]["aj_mean"]) for c in CENTRALITY_ORDER},
                 "student_aj_shift_sigma": float(student["validation_checks"]["aj_shift_significance_sigma"]),
-                "published_source": "figures/dijet_imbalance_all_cent_20101126_v0.pdf (PDF figure only; 0-30% median=0.22 tested in T8)",
+                "published_source": "arXiv:1102.1957 figures/dijet_imbalance_all_cent_20101126_v0.pdf (PRC Fig. 10, PDF figure only; 0-30% median=0.22 tested in T8)",
             },
             "explanation": (
                 f"While the 0-30% central A_J median = 0.22 stated in Sec. III.B is quantitatively verified in T8 "
-                f"({t8_pull:+.2f} sigma), no bin-by-bin table or .C macro exists for the five centrality panels of Fig. 8 "
-                f"or <A_J>, and figure digitization is prohibited. Would become shape-comparable if official Fig. 8(b)-(f) "
-                f"bin contents were published on HEPData."
+                f"({t8_pull:+.2f} sigma), no bin-by-bin table or archived .C macro exists for the five centrality panels of "
+                f"PRC Fig. 10 (Open Data Fig. 8) or <A_J>, and figure digitization is prohibited. Would become "
+                f"shape-comparable if official PRC Fig. 10(b)-(f) bin contents were published on HEPData."
             ),
         },
     ]
@@ -1756,7 +1812,7 @@ def build_not_comparable_tests(student: dict[str, Any], t8_result: dict[str, Any
 @app.command()
 def main(
     base_dir: Path = typer.Option(DEFAULT_BASE, "--base-dir", help="Student analysis directory"),
-    ref_dir: Path = typer.Option(DEFAULT_BASE / "reference", "--ref-dir", help="Directory holding arXiv:1102.1957 .tex/.C sources and published_reference.json"),
+    ref_dir: Path = typer.Option(DEFAULT_BASE / "reference", "--ref-dir", help="Directory holding arXiv:1102.1957 .tex sources, CmsHI/CVS_CmsHi .C macros, and published_reference.json"),
     cache_dir: Path = typer.Option(DEFAULT_BASE / "cache", "--cache-dir", help="Optional scratch cache directory containing selected_events.npz"),
     outdir: Path = typer.Option(DEFAULT_BASE / "plots" / "comparison", "--outdir", help="Directory for ARC comparison plots"),
     json_out: Path = typer.Option(DEFAULT_BASE / "comparison.json", "--json-out", help="Output machine-readable comparison JSON"),
@@ -1790,7 +1846,7 @@ def main(
     bounds_tev = src_ver["hf_macro_boundaries_tev"]
     t4 = _run_hf_shape_test(
         test_id="T4",
-        title="Forward calorimeter sum E_HF shape in HLT_HIJet50U events (Fig. 3a)",
+        title="Forward calorimeter sum E_HF shape in HLT_HIJet50U events (PRC Fig. 3a)",
         sample_label="HLT_HIJet50U",
         stem="cmp4_fig3a_hf_jet50_shape",
         edges_tev=edges_hf,
@@ -1803,7 +1859,7 @@ def main(
     )
     t5 = _run_hf_shape_test(
         test_id="T5",
-        title="Forward calorimeter sum E_HF shape in Minimum-Bias events (Fig. 3a)",
+        title="Forward calorimeter sum E_HF shape in Minimum-Bias events (PRC Fig. 3a)",
         sample_label="HLT_HIMinBiasHfOrBSC",
         stem="cmp5_fig3a_hf_minbias_shape",
         edges_tev=edges_hf,
@@ -1836,7 +1892,11 @@ def main(
             "arxiv": "1102.1957",
             "cern_preprint": "CERN-PH-EP-2011-001",
             "inspire_id": 889010,
-            "hepdata_official_status": "No official HEPData record published on hepdata.net; verified from paper LaTeX tables and 3 official ROOT macros (.C).",
+            "hepdata_official_status": (
+                "No official HEPData record published on hepdata.net; verified from arXiv:1102.1957 LaTeX tables/text "
+                "and 3 archived CMS Heavy-Ion Analysis2010 ROOT macros (.C) in github.com/CmsHI/CVS_CmsHi "
+                "(commit 9b9dcd34a1b718e4649ca2ddc34583706dfd5d1c)."
+            ),
             "sqrts_nn_tev": 2.76,
             "data_year": 2010,
             "lumi_inv_ub": 6.7,

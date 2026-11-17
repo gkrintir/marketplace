@@ -1,272 +1,272 @@
 dependent_variables:
-- header:
-    name: Event fraction [50-100%]
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 50-100%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.049442
-    value: 0.23711
-  - errors:
-    - label: stat
-      symerror: 0.042506
-    value: 0.17526
-  - errors:
-    - label: stat
-      symerror: 0.042506
-    value: 0.17526
-  - errors:
-    - label: stat
-      symerror: 0.043739
-    value: 0.18557
-  - errors:
-    - label: stat
-      symerror: 0.030928
-    value: 0.092784
-  - errors:
-    - label: stat
-      symerror: 0.032601
-    value: 0.10309
-  - errors:
-    - label: stat
-      symerror: 0.017856
-    value: 0.030928
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
-- header:
-    name: Event fraction [30-50%]
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 30-50%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.023889
-    value: 0.16892
-  - errors:
-    - label: stat
-      symerror: 0.027446
-    value: 0.22297
-  - errors:
-    - label: stat
-      symerror: 0.025281
-    value: 0.18919
-  - errors:
-    - label: stat
-      symerror: 0.022154
-    value: 0.14527
-  - errors:
-    - label: stat
-      symerror: 0.02055
-    value: 0.125
-  - errors:
-    - label: stat
-      symerror: 0.01881
-    value: 0.10473
-  - errors:
-    - label: stat
-      symerror: 0.011205
-    value: 0.037162
-  - errors:
-    - label: stat
-      symerror: 0.0033784
-    value: 0.0033784
-  - errors:
-    - label: stat
-      symerror: 0.0033784
-    value: 0.0033784
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
-- header:
-    name: Event fraction [20-30%]
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 20-30%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.02268
-    value: 0.16667
-  - errors:
-    - label: stat
-      symerror: 0.021605
-    value: 0.15123
-  - errors:
-    - label: stat
-      symerror: 0.023907
-    value: 0.18519
-  - errors:
-    - label: stat
-      symerror: 0.02268
-    value: 0.16667
-  - errors:
-    - label: stat
-      symerror: 0.021824
-    value: 0.15432
-  - errors:
-    - label: stat
-      symerror: 0.019026
-    value: 0.11728
-  - errors:
-    - label: stat
-      symerror: 0.011548
-    value: 0.04321
-  - errors:
-    - label: stat
-      symerror: 0.0069014
-    value: 0.015432
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
-- header:
-    name: Event fraction [10-20%]
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 10-20%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.017198
-    value: 0.14286
-  - errors:
-    - label: stat
-      symerror: 0.016947
-    value: 0.13872
-  - errors:
-    - label: stat
-      symerror: 0.0206
-    value: 0.20497
-  - errors:
-    - label: stat
-      symerror: 0.01793
-    value: 0.15528
-  - errors:
-    - label: stat
-      symerror: 0.018748
-    value: 0.16977
-  - errors:
-    - label: stat
-      symerror: 0.017073
-    value: 0.14079
-  - errors:
-    - label: stat
-      symerror: 0.0090246
-    value: 0.039337
-  - errors:
-    - label: stat
-      symerror: 0.003586
-    value: 0.0062112
-  - errors:
-    - label: stat
-      symerror: 0.0020704
-    value: 0.0020704
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
-- header:
-    name: Event fraction [0-10%]
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 0-10%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.012839
-    value: 0.11193
-  - errors:
-    - label: stat
-      symerror: 0.015446
-    value: 0.162
-  - errors:
-    - label: stat
-      symerror: 0.015725
-    value: 0.16789
-  - errors:
-    - label: stat
-      symerror: 0.016267
-    value: 0.17968
-  - errors:
-    - label: stat
-      symerror: 0.01443
-    value: 0.14138
-  - errors:
-    - label: stat
-      symerror: 0.015163
-    value: 0.15611
-  - errors:
-    - label: stat
-      symerror: 0.0094302
-    value: 0.060383
-  - errors:
-    - label: stat
-      symerror: 0.0051018
-    value: 0.017673
-  - errors:
-    - label: stat
-      symerror: 0.0020828
-    value: 0.0029455
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
-  - value: 0.0
+  - header:
+      name: Event fraction [50-100%]
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 50-100%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.049442
+        value: 0.23711
+      - errors:
+          - label: stat
+            symerror: 0.042506
+        value: 0.17526
+      - errors:
+          - label: stat
+            symerror: 0.042506
+        value: 0.17526
+      - errors:
+          - label: stat
+            symerror: 0.043739
+        value: 0.18557
+      - errors:
+          - label: stat
+            symerror: 0.030928
+        value: 0.092784
+      - errors:
+          - label: stat
+            symerror: 0.032601
+        value: 0.10309
+      - errors:
+          - label: stat
+            symerror: 0.017856
+        value: 0.030928
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+  - header:
+      name: Event fraction [30-50%]
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 30-50%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.023889
+        value: 0.16892
+      - errors:
+          - label: stat
+            symerror: 0.027446
+        value: 0.22297
+      - errors:
+          - label: stat
+            symerror: 0.025281
+        value: 0.18919
+      - errors:
+          - label: stat
+            symerror: 0.022154
+        value: 0.14527
+      - errors:
+          - label: stat
+            symerror: 0.02055
+        value: 0.125
+      - errors:
+          - label: stat
+            symerror: 0.01881
+        value: 0.10473
+      - errors:
+          - label: stat
+            symerror: 0.011205
+        value: 0.037162
+      - errors:
+          - label: stat
+            symerror: 0.0033784
+        value: 0.0033784
+      - errors:
+          - label: stat
+            symerror: 0.0033784
+        value: 0.0033784
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+  - header:
+      name: Event fraction [20-30%]
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 20-30%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.02268
+        value: 0.16667
+      - errors:
+          - label: stat
+            symerror: 0.021605
+        value: 0.15123
+      - errors:
+          - label: stat
+            symerror: 0.023907
+        value: 0.18519
+      - errors:
+          - label: stat
+            symerror: 0.02268
+        value: 0.16667
+      - errors:
+          - label: stat
+            symerror: 0.021824
+        value: 0.15432
+      - errors:
+          - label: stat
+            symerror: 0.019026
+        value: 0.11728
+      - errors:
+          - label: stat
+            symerror: 0.011548
+        value: 0.04321
+      - errors:
+          - label: stat
+            symerror: 0.0069014
+        value: 0.015432
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+  - header:
+      name: Event fraction [10-20%]
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 10-20%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.017198
+        value: 0.14286
+      - errors:
+          - label: stat
+            symerror: 0.016947
+        value: 0.13872
+      - errors:
+          - label: stat
+            symerror: 0.0206
+        value: 0.20497
+      - errors:
+          - label: stat
+            symerror: 0.01793
+        value: 0.15528
+      - errors:
+          - label: stat
+            symerror: 0.018748
+        value: 0.16977
+      - errors:
+          - label: stat
+            symerror: 0.017073
+        value: 0.14079
+      - errors:
+          - label: stat
+            symerror: 0.0090246
+        value: 0.039337
+      - errors:
+          - label: stat
+            symerror: 0.003586
+        value: 0.0062112
+      - errors:
+          - label: stat
+            symerror: 0.0020704
+        value: 0.0020704
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+  - header:
+      name: Event fraction [0-10%]
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 0-10%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.012839
+        value: 0.11193
+      - errors:
+          - label: stat
+            symerror: 0.015446
+        value: 0.162
+      - errors:
+          - label: stat
+            symerror: 0.015725
+        value: 0.16789
+      - errors:
+          - label: stat
+            symerror: 0.016267
+        value: 0.17968
+      - errors:
+          - label: stat
+            symerror: 0.01443
+        value: 0.14138
+      - errors:
+          - label: stat
+            symerror: 0.015163
+        value: 0.15611
+      - errors:
+          - label: stat
+            symerror: 0.0094302
+        value: 0.060383
+      - errors:
+          - label: stat
+            symerror: 0.0051018
+        value: 0.017673
+      - errors:
+          - label: stat
+            symerror: 0.0020828
+        value: 0.0029455
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
 independent_variables:
-- header:
-    name: $A_{J}$
-  values:
-  - high: 0.07
-    low: 0.0
-  - high: 0.14
-    low: 0.07
-  - high: 0.21
-    low: 0.14
-  - high: 0.28
-    low: 0.21
-  - high: 0.35
-    low: 0.28
-  - high: 0.42
-    low: 0.35
-  - high: 0.49
-    low: 0.42
-  - high: 0.56
-    low: 0.49
-  - high: 0.63
-    low: 0.56
-  - high: 0.7
-    low: 0.63
-  - high: 0.77
-    low: 0.7
-  - high: 0.84
-    low: 0.77
-  - high: 0.91
-    low: 0.84
+  - header:
+      name: $A_{J}$
+    values:
+      - high: 0.07
+        low: 0.0
+      - high: 0.14
+        low: 0.07
+      - high: 0.21
+        low: 0.14
+      - high: 0.28
+        low: 0.21
+      - high: 0.35
+        low: 0.28
+      - high: 0.42
+        low: 0.35
+      - high: 0.49
+        low: 0.42
+      - high: 0.56
+        low: 0.49
+      - high: 0.63
+        low: 0.56
+      - high: 0.7
+        low: 0.63
+      - high: 0.77
+        low: 0.7
+      - high: 0.84
+        low: 0.77
+      - high: 0.91
+        low: 0.84

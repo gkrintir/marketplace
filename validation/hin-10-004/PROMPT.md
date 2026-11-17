@@ -68,15 +68,15 @@ First write `specification.md` using `analysis-spec-builder` and
 
 **Plots (`CMS Open Data` style, PNG + PDF, in `validation/hin-10-004/plots/`):**
 
-1. `fig1a_trigger_turnon`: `HLT_HIJet50U` turn-on efficiency vs corrected `p_{T,1}`
-2. `fig3a_hf_centrality`: total `E_HF` distribution in MinBias vs `HLT_HIJet50U` with centrality boundaries
-3. `fig4_pt2_vs_pt1`: 2D `(p_{T,1}, p_{T,2})` distribution in peripheral (`30-100%`) vs central (`0-30%`)
-4. `fig5_leading_jet_pt`: leading-jet `p_{T,1}` spectrum across centrality
-5. `fig6_dijet_dphi`: normalized `(1/N) dN/dΔφ_{12}` in all 5 centrality bins
-6. `fig7_rb_dphi_vs_npart`: azimuthal back-to-back fraction `R_B(Δφ_{12} > 3.026)` vs `<N_part>`
-7. `fig8_dijet_asymmetry_aj`: normalized `A_J` distributions across all 5 centrality bins
-8. `fig9_rb_aj_vs_npart`: balanced dijet fraction `R_B(A_J < 0.15)` and `<A_J>` vs `<N_part>`
-9. `fig10_fractional_imbalance_vs_pt1`: `<(p_{T,1} - p_{T,2}) / p_{T,1}>` vs `p_{T,1}` (`30-100%`, `10-30%`, `0-10%`)
+1. `fig1a_trigger_turnon` (`PRC Fig. 2a`): `HLT_HIJet50U` turn-on efficiency vs corrected `p_{T,1}`
+2. `fig3a_hf_centrality` (`PRC Fig. 3a`): total `E_HF` distribution in MinBias vs `HLT_HIJet50U` with centrality boundaries
+3. `fig4_pt2_vs_pt1` (`PRC Fig. 6`): 2D `(p_{T,1}, p_{T,2})` distribution in peripheral (`30-100%`) vs central (`0-30%`)
+4. `fig5_leading_jet_pt` (`PRC Fig. 7`): leading-jet `p_{T,1}` spectrum across centrality
+5. `fig6_dijet_dphi` (`PRC Fig. 8`): normalized `(1/N) dN/dΔφ_{12}` in all 5 centrality bins
+6. `fig7_rb_dphi_vs_npart` (`PRC Fig. 9`): azimuthal back-to-back fraction `R_B(Δφ_{12} > 3.026)` vs `<N_part>`
+7. `fig8_dijet_asymmetry_aj` (`PRC Fig. 10`): normalized `A_J` distributions across all 5 centrality bins
+8. `fig9_rb_aj_vs_npart` (`PRC Fig. 11`): balanced dijet fraction `R_B(A_J < 0.15)` and `<A_J>` vs `<N_part>`
+9. `fig10_fractional_imbalance_vs_pt1` (`PRC Fig. 12`): `<(p_{T,1} - p_{T,2}) / p_{T,1}>` vs `p_{T,1}` (`30-100%`, `10-30%`, `0-10%`) in the published `PRC Fig. 12` binning `[120, 140, 160, 180, 240] GeV` (also saving `[120, 130, 140, 170, 240] GeV` in `summary.json` for cross-checking the archived Dec 2010 `CmsHI/CVS_CmsHi` `deltaPtOverPt1VsPt.C` macro)
 
 **Deliverables in `validation/hin-10-004/`:**
 

@@ -1,92 +1,92 @@
 dependent_variables:
-- header:
-    name: <(pT1 - pT2)/pT1> [30-100%]
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 30-100%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.014952
-    value: 0.29125
-  - errors:
-    - label: stat
-      symerror: 0.017286
-    value: 0.32192
-  - errors:
-    - label: stat
-      symerror: 0.016632
-    value: 0.32807
-  - errors:
-    - label: stat
-      symerror: 0.02389
-    value: 0.28568
-- header:
-    name: <(pT1 - pT2)/pT1> [10-30%]
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 10-30%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.0098273
-    value: 0.35359
-  - errors:
-    - label: stat
-      symerror: 0.012359
-    value: 0.33076
-  - errors:
-    - label: stat
-      symerror: 0.011549
-    value: 0.32511
-  - errors:
-    - label: stat
-      symerror: 0.02021
-    value: 0.38415
-- header:
-    name: <(pT1 - pT2)/pT1> [0-10%]
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Centrality
-    value: 0-10%
-  values:
-  - errors:
-    - label: stat
-      symerror: 0.01074
-    value: 0.36055
-  - errors:
-    - label: stat
-      symerror: 0.01416
-    value: 0.36604
-  - errors:
-    - label: stat
-      symerror: 0.012789
-    value: 0.37673
-  - errors:
-    - label: stat
-      symerror: 0.019866
-    value: 0.35509
+  - header:
+      name: <(pT1 - pT2)/pT1> [30-100%]
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 30-100%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.011331
+        value: 0.30408
+      - errors:
+          - label: stat
+            symerror: 0.017971
+        value: 0.31638
+      - errors:
+          - label: stat
+            symerror: 0.027633
+        value: 0.34955
+      - errors:
+          - label: stat
+            symerror: 0.030119
+        value: 0.27226
+  - header:
+      name: <(pT1 - pT2)/pT1> [10-30%]
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 10-30%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.0077078
+        value: 0.34521
+      - errors:
+          - label: stat
+            symerror: 0.012673
+        value: 0.32745
+      - errors:
+          - label: stat
+            symerror: 0.02093
+        value: 0.36083
+      - errors:
+          - label: stat
+            symerror: 0.027347
+        value: 0.35706
+  - header:
+      name: <(pT1 - pT2)/pT1> [0-10%]
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 0-10%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.0085525
+        value: 0.36246
+      - errors:
+          - label: stat
+            symerror: 0.014153
+        value: 0.37977
+      - errors:
+          - label: stat
+            symerror: 0.023239
+        value: 0.34407
+      - errors:
+          - label: stat
+            symerror: 0.023357
+        value: 0.37222
 independent_variables:
-- header:
-    name: Leading jet $p_{T,1}$
-    units: GeV
-  values:
-  - high: 130.0
-    low: 120.0
-  - high: 140.0
-    low: 130.0
-  - high: 170.0
-    low: 140.0
-  - high: 240.0
-    low: 170.0
+  - header:
+      name: Leading jet $p_{T,1}$
+      units: GeV
+    values:
+      - high: 140.0
+        low: 120.0
+      - high: 160.0
+        low: 140.0
+      - high: 180.0
+        low: 160.0
+      - high: 240.0
+        low: 180.0

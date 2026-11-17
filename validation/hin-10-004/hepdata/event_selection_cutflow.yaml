@@ -1,34 +1,34 @@
 dependent_variables:
-- header:
-    name: Events
-    units: Events
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  values:
-  - value: 2452052
-  - value: 2333644
-  - value: 77987
-  - value: 61164
-  - value: 58395
-  - value: 55052
-  - value: 41635
-  - value: 2274
-  - value: 1982
-  - value: 1879
+  - header:
+      name: Events
+      units: Events
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+    values:
+      - value: 2452052
+      - value: 2333644
+      - value: 77987
+      - value: 61164
+      - value: 58395
+      - value: 55052
+      - value: 41635
+      - value: 2274
+      - value: 1982
+      - value: 1879
 independent_variables:
-- header:
-    name: Selection step
-  values:
-  - value: Total events read in sampled HICorePhysics files
-  - value: Golden JSON certified lumisections
-  - value: HLT_HIJet50U single-jet trigger
-  - value: Offline HF coincidence (etHFtowerSumPlus/Minus > 3 GeV)
-  - value: Reconstructed heavy-ion primary vertex (|z_vtx| <= 25 cm)
-  - value: HCAL/ECAL noise and beam-scraping rejection
-  - value: At least two jets with pT > 35 GeV, |eta| < 2.0
-  - value: Leading jet pT1 > 120 GeV, |eta1| < 2.0
-  - value: Subleading jet pT2 > 50 GeV, |eta2| < 2.0
-  - value: Azimuthal back-to-back cut dphi12 > 2pi/3
+  - header:
+      name: Selection step
+    values:
+      - value: Total events read in sampled HICorePhysics files
+      - value: Golden JSON certified lumisections
+      - value: HLT_HIJet50U single-jet trigger
+      - value: Offline HF coincidence (etHFtowerSumPlus/Minus > 3 GeV)
+      - value: Reconstructed heavy-ion primary vertex (|z_vtx| <= 25 cm)
+      - value: HCAL/ECAL noise and beam-scraping rejection
+      - value: At least two jets with pT > 35 GeV, |eta| < 2.0
+      - value: Leading jet pT1 > 120 GeV, |eta1| < 2.0
+      - value: Subleading jet pT2 > 50 GeV, |eta2| < 2.0
+      - value: Azimuthal back-to-back cut dphi12 > 2pi/3

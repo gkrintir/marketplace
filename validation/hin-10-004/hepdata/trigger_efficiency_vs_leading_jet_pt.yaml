@@ -1,240 +1,240 @@
 dependent_variables:
-- header:
-    name: HLT_HIJet50U efficiency
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  - name: Trigger
-    value: HLT_HIJet50U
-  values:
-  - errors:
-    - asymerror:
-        minus: -0.00061279
-        plus: 0.0017013
-      label: stat
-    value: 0.00074074
-  - errors:
-    - asymerror:
-        minus: -0.00032052
-        plus: 0.00089039
-      label: stat
-    value: 0.00038745
-  - errors:
-    - asymerror:
-        minus: -0.0013003
-        plus: 0.0018952
-      label: stat
-    value: 0.0035282
-  - errors:
-    - asymerror:
-        minus: -0.0020088
-        plus: 0.0040877
-      label: stat
-    value: 0.0031104
-  - errors:
-    - asymerror:
-        minus: -0.0075907
-        plus: 0.020779
-      label: stat
-    value: 0.0091743
-  - errors:
-    - asymerror:
-        minus: -0.073268
-        plus: 0.1151
-      label: stat
-    value: 0.13636
-  - errors:
-    - asymerror:
-        minus: -0.23957
-        plus: 0.15966
-      label: stat
-    value: 0.75
-  - errors:
-    - asymerror:
-        minus: -0.0013314
-        plus: 0.0011234
-      label: stat
-    value: 0.9934
-  - errors:
-    - asymerror:
-        minus: -0.0007125
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.0013449
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.0026142
-        plus: 0.00094222
-      label: stat
-    value: 0.99886
-  - errors:
-    - asymerror:
-        minus: -0.0037049
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.0059985
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.0092089
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.014621
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.020474
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.026329
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.037629
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.073842
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.097224
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.23126
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.12322
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.185
-        plus: 0.0
-      label: stat
-    value: 1.0
-  - errors:
-    - asymerror:
-        minus: -0.16815
-        plus: 0.0
-      label: stat
-    value: 1.0
-- header:
-    name: Denominator events
-  qualifiers:
-  - name: SQRT(S)/NUCLEON
-    value: 2760 GeV
-  - name: RE
-    value: PB PB --> JET JET X
-  values:
-  - value: 1350
-  - value: 2581
-  - value: 1984
-  - value: 643
-  - value: 109
-  - value: 22
-  - value: 8
-  - value: 5153
-  - value: 2583
-  - value: 1368
-  - value: 878
-  - value: 496
-  - value: 306
-  - value: 199
-  - value: 125
-  - value: 89
-  - value: 69
-  - value: 48
-  - value: 24
-  - value: 18
-  - value: 7
-  - value: 14
-  - value: 9
-  - value: 10
+  - header:
+      name: HLT_HIJet50U efficiency
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Trigger
+        value: HLT_HIJet50U
+    values:
+      - errors:
+          - asymerror:
+              minus: -0.00061279
+              plus: 0.0017013
+            label: stat
+        value: 0.00074074
+      - errors:
+          - asymerror:
+              minus: -0.00032052
+              plus: 0.00089039
+            label: stat
+        value: 0.00038745
+      - errors:
+          - asymerror:
+              minus: -0.0013003
+              plus: 0.0018952
+            label: stat
+        value: 0.0035282
+      - errors:
+          - asymerror:
+              minus: -0.0020088
+              plus: 0.0040877
+            label: stat
+        value: 0.0031104
+      - errors:
+          - asymerror:
+              minus: -0.0075907
+              plus: 0.020779
+            label: stat
+        value: 0.0091743
+      - errors:
+          - asymerror:
+              minus: -0.073268
+              plus: 0.1151
+            label: stat
+        value: 0.13636
+      - errors:
+          - asymerror:
+              minus: -0.23957
+              plus: 0.15966
+            label: stat
+        value: 0.75
+      - errors:
+          - asymerror:
+              minus: -0.0013314
+              plus: 0.0011234
+            label: stat
+        value: 0.9934
+      - errors:
+          - asymerror:
+              minus: -0.0007125
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.0013449
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.0026142
+              plus: 0.00094222
+            label: stat
+        value: 0.99886
+      - errors:
+          - asymerror:
+              minus: -0.0037049
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.0059985
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.0092089
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.014621
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.020474
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.026329
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.037629
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.073842
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.097224
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.23126
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.12322
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.185
+              plus: 0.0
+            label: stat
+        value: 1.0
+      - errors:
+          - asymerror:
+              minus: -0.16815
+              plus: 0.0
+            label: stat
+        value: 1.0
+  - header:
+      name: Denominator events
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+    values:
+      - value: 1350
+      - value: 2581
+      - value: 1984
+      - value: 643
+      - value: 109
+      - value: 22
+      - value: 8
+      - value: 5153
+      - value: 2583
+      - value: 1368
+      - value: 878
+      - value: 496
+      - value: 306
+      - value: 199
+      - value: 125
+      - value: 89
+      - value: 69
+      - value: 48
+      - value: 24
+      - value: 18
+      - value: 7
+      - value: 14
+      - value: 9
+      - value: 10
 independent_variables:
-- header:
-    name: Leading jet $p_{T,1}$
-    units: GeV
-  values:
-  - high: 30.0
-    low: 20.0
-  - high: 40.0
-    low: 30.0
-  - high: 50.0
-    low: 40.0
-  - high: 60.0
-    low: 50.0
-  - high: 70.0
-    low: 60.0
-  - high: 80.0
-    low: 70.0
-  - high: 90.0
-    low: 80.0
-  - high: 100.0
-    low: 90.0
-  - high: 110.0
-    low: 100.0
-  - high: 120.0
-    low: 110.0
-  - high: 130.0
-    low: 120.0
-  - high: 140.0
-    low: 130.0
-  - high: 150.0
-    low: 140.0
-  - high: 160.0
-    low: 150.0
-  - high: 170.0
-    low: 160.0
-  - high: 180.0
-    low: 170.0
-  - high: 190.0
-    low: 180.0
-  - high: 200.0
-    low: 190.0
-  - high: 210.0
-    low: 200.0
-  - high: 220.0
-    low: 210.0
-  - high: 230.0
-    low: 220.0
-  - high: 240.0
-    low: 230.0
-  - high: 250.0
-    low: 240.0
-  - high: 260.0
-    low: 250.0
+  - header:
+      name: Leading jet $p_{T,1}$
+      units: GeV
+    values:
+      - high: 30.0
+        low: 20.0
+      - high: 40.0
+        low: 30.0
+      - high: 50.0
+        low: 40.0
+      - high: 60.0
+        low: 50.0
+      - high: 70.0
+        low: 60.0
+      - high: 80.0
+        low: 70.0
+      - high: 90.0
+        low: 80.0
+      - high: 100.0
+        low: 90.0
+      - high: 110.0
+        low: 100.0
+      - high: 120.0
+        low: 110.0
+      - high: 130.0
+        low: 120.0
+      - high: 140.0
+        low: 130.0
+      - high: 150.0
+        low: 140.0
+      - high: 160.0
+        low: 150.0
+      - high: 170.0
+        low: 160.0
+      - high: 180.0
+        low: 170.0
+      - high: 190.0
+        low: 180.0
+      - high: 200.0
+        low: 190.0
+      - high: 210.0
+        low: 200.0
+      - high: 220.0
+        low: 210.0
+      - high: 230.0
+        low: 220.0
+      - high: 240.0
+        low: 230.0
+      - high: 250.0
+        low: 240.0
+      - high: 260.0
+        low: 250.0
