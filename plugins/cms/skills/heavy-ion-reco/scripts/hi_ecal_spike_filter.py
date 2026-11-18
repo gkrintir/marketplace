@@ -224,7 +224,7 @@ def run_self_test() -> int:
     tim_oot = np.array([6.5, 0.2, 0.4], dtype=np.float32)
     rej_oot = not hi_ecal_spike_filter(ids_em, ene_em, tim_oot, min_et=20.0)
 
-    # 4. Moderate 32 GeV slow-neutron APD hit: rejected at photon minEt=20, accepted at jet minEt=50
+    # 4. Moderate 32 GeV single-crystal EB deposit: rejected at minEt=20, accepted at minEt=50
     ids_mod = np.array([pack_eb_detid(5, 180)], dtype=np.uint32)
     ene_mod = np.array([32.0], dtype=np.float32)
     tim_mod = np.array([0.0], dtype=np.float32)

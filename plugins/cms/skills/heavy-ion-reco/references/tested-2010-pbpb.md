@@ -18,12 +18,12 @@ records 14010 and 14011 (Python 3.11, uproot 5.7.7, awkward 2.15.0), 2026-11-14.
 
 ## 2010 PbPb Open Data records
 
-| Dataset / artefact                                                 | CERN Open Data record                               | Split level & size                                                  | Purpose                                                                                                     |
-| ------------------------------------------------------------------ | --------------------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `/HICorePhysics/HIRun2010-PromptReco-v3/RECO`                      | [14010](https://opendata.cern.ch/record/14010)      | `splitLevel=99` (2,276 files total; 2,154 certified across 66 runs) | Unprescaled high-$p_T$ jet (`HLT_HIJet50U`), photon and dimuon triggers                                     |
-| `/HIAllPhysics/HIRun2010-ZS-v2/RECO`                               | [14011](https://opendata.cern.ch/record/14011)      | `splitLevel=0` (12,243 files)                                       | Minimum-Bias (`HLT_HIMinBiasHfOrBSC`) and lower-threshold jet (`HLT_HIJet35U`) triggers                     |
-| `Cert_150436-152957_HI7TeV_StreamExpress_Collisions10_JSON_v2.txt` | [14202](https://opendata.cern.ch/record/14202)      | Golden JSON (runs `150436`–`152957`)                                | Official validated PbPb run/lumisection mask ($\mathcal{L}_{\mathrm{int}} \approx 6.7\ \mu\mathrm{b}^{-1}$) |
-| `HeavyIonDijetAsymmetry2010` (`Spring10_HI_*_IC5Calo.txt`)         | [470](https://opendata.cern.ch/record/470) / GitHub | Factorized ASCII JEC tables                                         | `L2Relative` ($\eta$) and `L3Absolute` ($p_T$) corrections for `iterativeConePu5CaloJets`                   |
+| Dataset / artefact                                                 | CERN Open Data record                                                                     | Split level & size                                                         | Purpose                                                                                                                   |
+| ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `/HICorePhysics/HIRun2010-PromptReco-v3/RECO`                      | [14010](https://opendata.cern.ch/record/14010)                                            | `splitLevel=99` (2,276 files total; 2,154 certified across 66 runs)        | Unprescaled high-$p_T$ jet (`HLT_HIJet50U`), photon, dimuon, and core Minimum-Bias (`HLT_HIMinBiasHfOrBSC_Core`) triggers |
+| `/HIAllPhysics/HIRun2010-ZS-v2/RECO`                               | [14011](https://opendata.cern.ch/record/14011)                                            | `splitLevel=0` (12,243 files)                                              | Bulk Minimum-Bias (`HLT_HIMinBiasHfOrBSC`) and lower-threshold jet (`HLT_HIJet35U`) triggers                              |
+| `Cert_150436-152957_HI7TeV_StreamExpress_Collisions10_JSON_v2.txt` | [14202](https://opendata.cern.ch/record/14202)                                            | Golden JSON (runs `150436`–`152957`)                                       | Official validated PbPb run/lumisection mask ($\mathcal{L}_{\mathrm{int}} \approx 6.7\ \mu\mathrm{b}^{-1}$)               |
+| `HeavyIonDijetAsymmetry2010` / `GR_R_39X_V6B` `IC5Calo` JEC        | [470](https://opendata.cern.ch/record/470) / [1811](https://opendata.cern.ch/record/1811) | Factorized ASCII JEC tables (`Spring10_HI_IC5Calo`, `Spring10_V8_IC5Calo`) | `L2Relative` ($\eta$) and `L3Absolute` ($p_T$) corrections for `iterativeConePu5CaloJets`                                 |
 
 Convert `root://eospublic.cern.ch//eos/opendata/...` file-index URLs to
 `https://opendata.cern.ch/eos/opendata/...` when streaming from environments
@@ -60,29 +60,44 @@ $\langle N_{\mathrm{part}} \rangle$:
 
 On cleaned `HLT_HIMinBiasHfOrBSC` events from `HIAllPhysics`, these fixed
 boundaries give `0.506 / 0.197 / 0.097 / 0.098 / 0.101` (matching the target
-`0.50 / 0.20 / 0.10 / 0.10 / 0.10` fractions within $0.6\%$). Note that real
-`HLT_HIMinBiasHfOrBSC` data is $\sim 97\pm 3\%$ efficient in ultra-peripheral
-nuclear collisions ($\sum E_{\mathrm{HF}} < 2.75\ \mathrm{TeV}$); published
-centrality tables supplement the lowest bin with Glauber MC (`hhfMB`).
+`0.50 / 0.20 / 0.10 / 0.10 / 0.10` fractions within $0.6\%$). Note that
+`CMS-HIN-10-004` Fig. 3a (`hhfMB` in `hf_centrality_distribution_mb_jet50_20101126_v1.C`,
+commit `f6717ae4`) names `HLT_MinBiasHForBSC_Core` (`HLT_HIMinBiasHfOrBSC_Core`
+in `HICorePhysics`): with `noBSChalo`, $\ge 3$ HF `CaloTowers`/side, and the
+2-track vertex across 110 `HICorePhysics` files, `_Core` gives `23.06%` in the
+lowest `[0, 2.286] TeV` bin vs `23.23%` in `hhfMB` ($G^2 = 54.70 / 53\ \mathrm{ndf}$),
+whereas ordinary `HLT_HIMinBiasHfOrBSC` in `HIAllPhysics` differs in low-HF
+trigger sampling and primary-vertex track attachment (`5` of `591` shared `_Core`
+events have `2–11` attached vertex tracks in `HIAllPhysics` vs `0` in
+`HICorePhysics`). Real Minimum-Bias data is $\sim 97\pm 3\%$ efficient in
+low-$\sum E_{\mathrm{HF}}$ hadronic collisions ($\sum E_{\mathrm{HF}} < 2.75\ \mathrm{TeV}$).
 
 ## Offline Heavy-Ion event cleaning
 
 Apply the 2010 Heavy-Ion collision and monster-event filters
 (`HeavyIonsAnalysis/Configuration/python/EventSelection_cff.py`) in order:
 
-1. **Golden JSON lumisection mask** on `(run, lumi)` from `EventAuxiliary`.
-2. **HF coincidence (`hfPosFilter3` + `hfNegFilter3`)**:
-   `(etHFtowerSumPlus_ >= 3.0) & (etHFtowerSumMinus_ >= 3.0)` (equivalent to at
-   least 3 HF towers above 3 GeV on each side; suppresses ultra-peripheral
-   electromagnetic dissociation and beam-gas events, passing $\sim 74.9\%$ of
-   `HLT_HIJet50U` triggers).
-3. **Reconstructed Heavy-Ion primary vertex (`hiSelectedVertex`)**: at least one
-   vertex with `validity_ == True`, `ndof_ > 0` (at least two tracks) and
-   `|fZ| <= 25.0` cm.
+1. **Golden JSON lumisection mask** on `(run, lumi)` from `EventAuxiliary`,
+   followed by the **BSC beam-halo veto (`noBSChalo`)** rejecting L1 technical
+   trigger bits `36, 37, 38, 39` (`99.60%` pass rate on `HLT_HIJet50U` vs
+   `99.61%` in `CMS-HIN-10-004` Table I).
+2. **HF 3-tower coincidence (`hfCoincFilter3`: `hfPosFilter3` + `hfNegFilter3`)**:
+   at least **3 HF `CaloTowers` with $E \ge 3.0\ \mathrm{GeV}$ in
+   $3.0 \le |\eta| \le 6.0$ on each side** (`75.19%` pass rate after
+   `noBSChalo`, vs `74.98%` in Table I). Using the summary proxy
+   `(etHFtowerSumPlus_ >= 3.0) & (etHFtowerSumMinus_ >= 3.0)` is faster when
+   skipping `CaloTowersSorted`, and admits ~5% extra low-multiplicity jet
+   triggers that subsequently fail the 2-track primary vertex cut (`0 / 148`
+   pass `tracksSize >= 2`).
+3. **Reconstructed Heavy-Ion primary vertex (`primaryVertexFilter` on
+   `hiSelectedVertex`)**: at least one vertex with `!isFake` (`validity_ == True`),
+   `tracksSize >= 2` (`ndof_ > 0`), `|fZ| <= 25.0` cm, and transverse radius
+   `Rho <= 2.0` cm (`98.78%` pass rate after `hfCoincFilter3`, vs `98.97%` in
+   Table I).
 4. **Beam-halo / scraping pixel-HF compatibility**: reject events where pixel
    hit multiplicity exceeds the HF-scaled envelope, e.g.
    `pixelMultiplicity_ <= 150.0 + 7.5 * hf_sum_gev` (or cluster-shape vertex
-   compatibility when reading `siPixelRecHits`).
+   compatibility `hltPixelClusterShapeFilter` when reading `siPixelRecHits`).
 5. **HCAL RBX noise (`HcalNoiseSummary_hcalnoise__RECO`)**: require
    `maxzeros_ < 100`. **Never** cut on `nproblemRBXs_ == 0` in Run-1 PbPb:
    `HcalNoiseSummary` in `CMSSW_3_9_2_patch5` evaluates proton-proton RBX
@@ -108,12 +123,12 @@ denominators ($p_{T,1} > 120\ \mathrm{GeV}$ with no recoil jet).
   with 3 neighbours at `|ieta| = 85` and `|ieta| = 1`), **or**
 - $|t| > 4.0\ \mathrm{ns}$.
 
-**Multiplicity-dependent slow-neutron APD hits in central PbPb:**
+**Whole-event `minEt` threshold sensitivity in central PbPb:**
 
-| `minEt` setting                                 | `HLT_HIJet50U` pass rate                  | `0-10%` MinBias veto rate | `50-100%` MinBias veto rate | When to use                                                                                                                                                                  |
-| ----------------------------------------------- | ----------------------------------------- | ------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `20.0 GeV` (`hiEcalSpikeFilter` photon default) | `94.31%`                                  | `5.49%`                   | `0.18%`                     | Isolated photon analyses, or conservative whole-event cleaning when `20-50 GeV` slow-neutron hits overlap photons                                                            |
-| `50.0 GeV` (jet-scale whole-event veto)         | `~97.7%` (`97.66%` in HIN-10-004 Table 1) | `< 0.5%`                  | `< 0.05%`                   | High-$p_T$ jet analyses ($p_{T,1} > 120\ \mathrm{GeV}$, $p_{T,2} > 50\ \mathrm{GeV}$): avoids centrality-dependent event rejection from `20-50 GeV` neutron-induced APD hits |
+| `minEt` setting                                 | `HLT_HIJet50U` pass rate                  | `0-10%` MinBias veto rate | `50-100%` MinBias veto rate | Behaviour & historical usage                                                                                                                                                         |
+| ----------------------------------------------- | ----------------------------------------- | ------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `20.0 GeV` (`hiEcalSpikeFilter` module default) | `94.25%–94.31%`                           | `5.49%`                   | `0.18%`                     | Isolated photon analyses, or conservative whole-event cleaning (appears in `CmsHI/CVS_CmsHi` `37ffd5e4`; also vetoes `20-50 GeV` isolated EB crystal deposits outside jet cones)     |
+| `50.0 GeV` (jet-scale whole-event veto)         | `97.46%` (`97.66%` in HIN-10-004 Table I) | `< 0.5%`                  | `< 0.05%`                   | High-$p_T$ jet analyses ($p_{T,1} > 120\ \mathrm{GeV}$, $p_{T,2} > 50\ \mathrm{GeV}$): restores out-of-cone dijets (`4` of `6` restored in 110 files); exact Table I job unconfirmed |
 
 Use `scripts/hi_ecal_spike_filter.py` to evaluate either threshold on real EDM
 `RECO` files.
@@ -138,7 +153,14 @@ order = ak.argsort(pt_corr, axis=1, ascending=False)   # ALWAYS re-sort after JE
 ```
 
 Typical JEC systematic uncertainty on `IC5Calo` in 2010 PbPb is $5\%$ absolute
-energy scale plus a $2\%$ central-to-peripheral underlying-event residual scale shift.
+energy scale plus a $2\%$ central-to-peripheral underlying-event residual scale
+shift. Note that two public factorized `IC5Calo` payloads exist on CERN Open
+Data: `Spring10_HI_IC5Calo` (Record [470](https://opendata.cern.ch/record/470))
+and the released global-tag payload `GR_R_39X_V6B` (`Spring10_V8_IC5Calo`,
+Record [1811](https://opendata.cern.ch/record/1811)), which reproduces jet
+$p_T$ slightly more closely in archived 2010 CMS dijet ntuples ($p_{T,2} > 50\ \mathrm{GeV}$)
+while selecting nearly identical final back-to-back dijet samples (`96` vs `98`
+in a 110-file check, `93` in common).
 
 ## Inclusive vs dijet-conditional quench observables
 

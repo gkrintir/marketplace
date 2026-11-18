@@ -53,14 +53,14 @@ in `CMSSW_3_9_2_patch5` are in **GeV**.
 
 ## Key Concepts
 
-| Concept             | Branch / object in 2010 PbPb `RECO`                                        | Key rule                                                                                                      |
-| ------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Centrality variable | `recoCentrality_hiCentrality__RECO` (`etHFhitSumPlus_ + etHFhitSumMinus_`) | Stores **total HF energy $\sum E_{\mathrm{HF}}$ in GeV** (up to ~150 TeV), despite the `et*` prefix           |
-| HF coincidence      | `etHFtowerSumPlus_ >= 3.0` and `etHFtowerSumMinus_ >= 3.0`                 | Suppresses ultra-peripheral EM dissociation and beam-gas (~75% of `HLT_HIJet50U` pass)                        |
-| Heavy-Ion vertex    | `recoVertexs_hiSelectedVertex__RECO`                                       | Require `validity_`, `ndof_ > 0`, and `\|fZ\| <= 25` cm                                                       |
-| HCAL RBX filter     | `HcalNoiseSummary_hcalnoise__RECO` (`maxzeros_ < 100`)                     | **Never** require `nproblemRBXs_ == 0` in PbPb (flags all 36 HB RBXs in central collisions)                   |
-| ECAL APD spikes     | `EcalRecHitsEB` (`HiEcalRecHitSpikeFilter`)                                | Reject crystal $E_T > E_{T,\min}$ with $1 - E_4/E_1 > 0.95$ or $\|t\| > 4\ \mathrm{ns}$ (`avoidIeta85=False`) |
-| UE-subtracted jets  | `recoCaloJets_iterativeConePu5CaloJets__RECO`                              | Raw UE-subtracted scale; apply `L2Relative * L3Absolute` JEC, **then** sort by `pt_corr`                      |
+| Concept             | Branch / object in 2010 PbPb `RECO`                                        | Key rule                                                                                                                                                           |
+| ------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Centrality variable | `recoCentrality_hiCentrality__RECO` (`etHFhitSumPlus_ + etHFhitSumMinus_`) | Stores **total HF energy $\sum E_{\mathrm{HF}}$ in GeV** (up to ~150 TeV), despite the `et*` prefix                                                                |
+| HF coincidence      | `etHFtowerSumPlus_ >= 3.0` and `etHFtowerSumMinus_ >= 3.0`                 | Fast summary proxy (~78% of `HLT_HIJet50U`); exact `hfCoincFilter3` requires $\ge 3$ HF `CaloTowers` ($E \ge 3\ \mathrm{GeV}$) per side after `noBSChalo` (~75.2%) |
+| Heavy-Ion vertex    | `recoVertexs_hiSelectedVertex__RECO`                                       | Require `!isFake`, `tracksSize >= 2` (`ndof_ > 0`), `\|fZ\| <= 25` cm, and `Rho <= 2` cm                                                                           |
+| HCAL RBX filter     | `HcalNoiseSummary_hcalnoise__RECO` (`maxzeros_ < 100`)                     | **Never** require `nproblemRBXs_ == 0` in PbPb (flags all 36 HB RBXs in central collisions)                                                                        |
+| ECAL APD spikes     | `EcalRecHitsEB` (`HiEcalRecHitSpikeFilter`)                                | Reject crystal $E_T > E_{T,\min}$ with $1 - E_4/E_1 > 0.95$ or $\|t\| > 4\ \mathrm{ns}$ (`avoidIeta85=False`)                                                      |
+| UE-subtracted jets  | `recoCaloJets_iterativeConePu5CaloJets__RECO`                              | Raw UE-subtracted scale; apply `L2Relative * L3Absolute` JEC, **then** sort by `pt_corr`                                                                           |
 
 ## Canonical Patterns
 
@@ -104,10 +104,13 @@ Choose `--min-et` to match the physics objects:
 - **Isolated photon / $Z \to ee$ analyses (`min_et = 20.0` GeV):** matches the
   default `hiEcalSpikeFilter` module in `CMSSW_3_9_2_patch5`. Note that as a
   whole-event veto, `20 GeV` rejects ~5.5% of `0-10%` central Minimum-Bias
-  collisions due to multiplicity-scaling slow-neutron APD hits of `20-50 GeV`.
+  collisions (`94.25%–94.31%` survival on `HLT_HIJet50U`) by flagging isolated
+  `20-50 GeV` barrel crystal deposits, including outside jet cones.
 - **High-$p_T$ jet analyses (`min_et = 50.0` GeV, plus leading-jet
-  `mEnergyFractionEm >= 0.01`):** removes every jet-scale APD spike (including
-  at the `|ieta| = 85` barrel boundary) without biasing central PbPb event counts.
+  `mEnergyFractionEm >= 0.01`):** removes jet-scale barrel APD spikes (including
+  at the `|ieta| = 85` boundary) while raising `HLT_HIJet50U` survival to
+  `97.46%` (vs `97.66%` in `CMS-HIN-10-004` Table I; both `20` and `50 GeV`
+  appear in historical 2010 CMS code) and avoiding out-of-cone event vetoes.
 
 ### 3. Apply factorized JEC and compute inclusive balanced fractions ($R_B$)
 
