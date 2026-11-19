@@ -1,0 +1,76 @@
+dependent_variables:
+  - header:
+      name: $\langle N_{\mathrm{part}} \rangle$
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+    values:
+      - errors:
+          - label: syst
+            symerror: 2.0
+        value: 22.0
+      - errors:
+          - label: syst
+            symerror: 5.0
+        value: 108.0
+      - errors:
+          - label: syst
+            symerror: 5.0
+        value: 187.0
+      - errors:
+          - label: syst
+            symerror: 4.0
+        value: 261.0
+      - errors:
+          - label: syst
+            symerror: 3.0
+        value: 355.0
+  - header:
+      name: $R_{B}(\Delta\phi_{12} > 3.026)$
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+    values:
+      - errors:
+          - asymerror:
+              minus: -0.054939
+              plus: 0.055051
+            label: stat
+        value: 0.49495
+      - errors:
+          - asymerror:
+              minus: -0.030118
+              plus: 0.030419
+            label: stat
+        value: 0.45695
+      - errors:
+          - asymerror:
+              minus: -0.028627
+              plus: 0.028854
+            label: stat
+        value: 0.46407
+      - errors:
+          - asymerror:
+              minus: -0.023117
+              plus: 0.023312
+            label: stat
+        value: 0.45309
+      - errors:
+          - asymerror:
+              minus: -0.018633
+              plus: 0.018849
+            label: stat
+        value: 0.42225
+independent_variables:
+  - header:
+      name: Centrality
+    values:
+      - value: 50-100%
+      - value: 30-50%
+      - value: 20-30%
+      - value: 10-20%
+      - value: 0-10%

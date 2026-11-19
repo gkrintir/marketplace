@@ -47,6 +47,15 @@ For CMS (non-Open-Data) files, prefix the `/store/...` LFN with a redirector,
 e.g. `root://cmsxrootd.fnal.gov//store/...`. This needs a valid grid proxy
 (`voms-proxy-init -voms cms`).
 
+Over HTTPS (`https://opendata.cern.ch/eos/opendata/...`, useful when no XRootD
+client is installed), pass `handler=uproot.source.http.HTTPSource` to
+`uproot.open(...)`: with `aiohttp` installed, uproot defaults to `FSSpecSource`,
+whose `_cat_ranges` returns exception objects on transient `503`/timeout errors
+and crashes `uproot/source/coalesce.py` with
+`TypeError: 'ClientResponseError' object is not subscriptable`. For Run-1 EDM
+`RECO` files (`./` branch names, `splitLevel=0`, `EventAuxiliary`), see the
+`heavy-ion-reco` skill.
+
 ## Reading only what you need
 
 NanoAOD files are large (the test file is 2.4 GB with 1.9M events), so read

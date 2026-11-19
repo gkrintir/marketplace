@@ -152,8 +152,16 @@ contact creates the real record. See
   `figure_table(..., phrases=[...])` sets it.
 - **Per-category tables**: use a string independent variable (`["1 b tag",
 "2 b tags"]`) rather than an encoded integer index.
+- **7-digit integer counts rounded to 5 significant figures** (`2452052`
+  written as `2452100`): hepdata_lib 0.20 defaults to `v.digits = 5` even for
+  Python `int` values, and `digits` is an instance attribute (`v.digits = 9`
+  set **before** `v.values = ...`), not a `Variable.__init__()` argument
+  (`TypeError: Variable.__init__() got an unexpected keyword argument 'digits'`).
+  The template's `y_var` raises `v.digits` automatically for integer sequences.
 - **`add_image` needs ImageMagick** (`convert`) for PDF → PNG and thumbnails.
-  The LCG view has it.
+  The LCG view has it. On Debian/Ubuntu containers where `/etc/ImageMagick-6/policy.xml`
+  blocks the `PDF` coder (`not allowed by the security policy 'PDF'`), pass the
+  rendered `.png` figure (`add_image("plots/fig.png")`) instead.
 - **Default license changed**: hepdata_lib 0.14 wrote CC-BY-4.0, 0.20 writes
   CC0. Check what your group expects.
 - **Open Data records are not CMS results.** Say so in `submission.comment`

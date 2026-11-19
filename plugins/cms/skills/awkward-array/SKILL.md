@@ -44,7 +44,8 @@ CMS NanoAOD kinematics are in **GeV**.
 
 For physics vectors (`Momentum4D`, `.deltaR`, `.mass`) use the `vector`
 library with `vector.register_awkward()`. A short example is in the asset
-script.
+script. For Run-1 CMS EDM `RECO`/`AOD` Open Data (`./` branch names,
+`EventAuxiliary`, Heavy-Ion `PbPb`), also use the `heavy-ion-reco` skill.
 
 ## Key Concepts
 
@@ -164,6 +165,15 @@ environments.
   `iterate(..., step_size="100 MB")` raises
   `TypeError: integer argument expected for offset`. `step_size=200_000` works.
   With `handler=XRootDSource`, call `f.close()` or the script can hang at exit.
+- **`https://` URLs with `aiohttp` installed** default to `FSSpecSource`, which
+  can crash on transient `503`/timeout errors with
+  `TypeError: 'ClientResponseError' object is not subscriptable`. Pass
+  `handler=uproot.source.http.HTTPSource`.
+- **`SyntaxError: invalid syntax` on EDM `./` branch names** in
+  `events.arrays([br1, br2])`: when any branch is missing, uproot parses the
+  string with `ast.parse` and chokes on `./`. Pass
+  `events.arrays(filter_name=[...], how=dict)` (keys are leaf branch names) and
+  see the `heavy-ion-reco` skill.
 - **These functions don't exist:** `ak.abs` (use `abs()` / `np.abs`),
   `ak.take`, `ak.expand_dims`, `ak.stack` (`np.stack` works only on
   rectangular data), `ak.fill_like` (use `ak.full_like` / `ak.zeros_like`).

@@ -1,0 +1,408 @@
+dependent_variables:
+  - header:
+      name: (1/N) dN/dDeltaPhi12 [50-100%]
+      units: rad^-1
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 50-100%
+    values:
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.064305
+        value: 0.064305
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.064305
+        value: 0.064305
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.064305
+        value: 0.064305
+      - errors:
+          - label: stat
+            symerror: 0.064305
+        value: 0.064305
+      - errors:
+          - label: stat
+            symerror: 0.064305
+        value: 0.064305
+      - errors:
+          - label: stat
+            symerror: 0.15751
+        value: 0.38583
+      - errors:
+          - label: stat
+            symerror: 0.22276
+        value: 0.77166
+      - errors:
+          - label: stat
+            symerror: 0.28758
+        value: 1.2861
+      - errors:
+          - label: stat
+            symerror: 0.48121
+        value: 3.6011
+  - header:
+      name: (1/N) dN/dDeltaPhi12 [30-50%]
+      units: rad^-1
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 30-50%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.036512
+        value: 0.06324
+      - value: 0.0
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.02108
+        value: 0.02108
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.029812
+        value: 0.04216
+      - errors:
+          - label: stat
+            symerror: 0.02108
+        value: 0.02108
+      - errors:
+          - label: stat
+            symerror: 0.055773
+        value: 0.14756
+      - errors:
+          - label: stat
+            symerror: 0.055773
+        value: 0.14756
+      - errors:
+          - label: stat
+            symerror: 0.08432
+        value: 0.33728
+      - errors:
+          - label: stat
+            symerror: 0.12471
+        value: 0.7378
+      - errors:
+          - label: stat
+            symerror: 0.16864
+        value: 1.3491
+      - errors:
+          - label: stat
+            symerror: 0.2716
+        value: 3.4993
+  - header:
+      name: (1/N) dN/dDeltaPhi12 [20-30%]
+      units: rad^-1
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 20-30%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.026956
+        value: 0.038121
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.01906
+        value: 0.01906
+      - errors:
+          - label: stat
+            symerror: 0.01906
+        value: 0.01906
+      - value: 0.0
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.01906
+        value: 0.01906
+      - value: 0.0
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.033014
+        value: 0.057181
+      - errors:
+          - label: stat
+            symerror: 0.01906
+        value: 0.01906
+      - errors:
+          - label: stat
+            symerror: 0.01906
+        value: 0.01906
+      - value: 0.0
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.038121
+        value: 0.076242
+      - errors:
+          - label: stat
+            symerror: 0.063216
+        value: 0.20967
+      - errors:
+          - label: stat
+            symerror: 0.068724
+        value: 0.24779
+      - errors:
+          - label: stat
+            symerror: 0.11594
+        value: 0.70524
+      - errors:
+          - label: stat
+            symerror: 0.17048
+        value: 1.5248
+      - errors:
+          - label: stat
+            symerror: 0.25501
+        value: 3.4118
+  - header:
+      name: (1/N) dN/dDeltaPhi12 [10-20%]
+      units: rad^-1
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 10-20%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.01797
+        value: 0.025414
+      - errors:
+          - label: stat
+            symerror: 0.012707
+        value: 0.012707
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.012707
+        value: 0.012707
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.022009
+        value: 0.038121
+      - errors:
+          - label: stat
+            symerror: 0.01797
+        value: 0.025414
+      - value: 0.0
+      - errors:
+          - label: stat
+            symerror: 0.012707
+        value: 0.012707
+      - errors:
+          - label: stat
+            symerror: 0.012707
+        value: 0.012707
+      - errors:
+          - label: stat
+            symerror: 0.012707
+        value: 0.012707
+      - errors:
+          - label: stat
+            symerror: 0.022009
+        value: 0.038121
+      - errors:
+          - label: stat
+            symerror: 0.022009
+        value: 0.038121
+      - errors:
+          - label: stat
+            symerror: 0.025414
+        value: 0.050828
+      - errors:
+          - label: stat
+            symerror: 0.03362
+        value: 0.088949
+      - errors:
+          - label: stat
+            symerror: 0.053911
+        value: 0.22873
+      - errors:
+          - label: stat
+            symerror: 0.052392
+        value: 0.21602
+      - errors:
+          - label: stat
+            symerror: 0.088949
+        value: 0.62264
+      - errors:
+          - label: stat
+            symerror: 0.13266
+        value: 1.3851
+      - errors:
+          - label: stat
+            symerror: 0.21225
+        value: 3.5452
+  - header:
+      name: (1/N) dN/dDeltaPhi12 [0-10%]
+      units: rad^-1
+    qualifiers:
+      - name: SQRT(S)/NUCLEON
+        value: 2760 GeV
+      - name: RE
+        value: PB PB --> JET JET X
+      - name: Centrality
+        value: 0-10%
+    values:
+      - errors:
+          - label: stat
+            symerror: 0.022578
+        value: 0.059736
+      - errors:
+          - label: stat
+            symerror: 0.014781
+        value: 0.025601
+      - errors:
+          - label: stat
+            symerror: 0.019082
+        value: 0.042669
+      - errors:
+          - label: stat
+            symerror: 0.014781
+        value: 0.025601
+      - errors:
+          - label: stat
+            symerror: 0.014781
+        value: 0.025601
+      - errors:
+          - label: stat
+            symerror: 0.017068
+        value: 0.034135
+      - errors:
+          - label: stat
+            symerror: 0.020903
+        value: 0.051203
+      - errors:
+          - label: stat
+            symerror: 0.017068
+        value: 0.034135
+      - errors:
+          - label: stat
+            symerror: 0.022578
+        value: 0.059736
+      - errors:
+          - label: stat
+            symerror: 0.014781
+        value: 0.025601
+      - errors:
+          - label: stat
+            symerror: 0.020903
+        value: 0.051203
+      - errors:
+          - label: stat
+            symerror: 0.019082
+        value: 0.042669
+      - errors:
+          - label: stat
+            symerror: 0.022578
+        value: 0.059736
+      - errors:
+          - label: stat
+            symerror: 0.03193
+        value: 0.11947
+      - errors:
+          - label: stat
+            symerror: 0.026986
+        value: 0.085338
+      - errors:
+          - label: stat
+            symerror: 0.033051
+        value: 0.12801
+      - errors:
+          - label: stat
+            symerror: 0.057879
+        value: 0.39255
+      - errors:
+          - label: stat
+            symerror: 0.070887
+        value: 0.58883
+      - errors:
+          - label: stat
+            symerror: 0.10382
+        value: 1.263
+      - errors:
+          - label: stat
+            symerror: 0.16657
+        value: 3.2514
+independent_variables:
+  - header:
+      name: $\Delta\phi_{12}$
+      units: rad
+    values:
+      - high: 0.15708
+        low: 0.0
+      - high: 0.31416
+        low: 0.15708
+      - high: 0.47124
+        low: 0.31416
+      - high: 0.62832
+        low: 0.47124
+      - high: 0.7854
+        low: 0.62832
+      - high: 0.94248
+        low: 0.7854
+      - high: 1.0996
+        low: 0.94248
+      - high: 1.2566
+        low: 1.0996
+      - high: 1.4137
+        low: 1.2566
+      - high: 1.5708
+        low: 1.4137
+      - high: 1.7279
+        low: 1.5708
+      - high: 1.885
+        low: 1.7279
+      - high: 2.042
+        low: 1.885
+      - high: 2.1991
+        low: 2.042
+      - high: 2.3562
+        low: 2.1991
+      - high: 2.5133
+        low: 2.3562
+      - high: 2.6704
+        low: 2.5133
+      - high: 2.8274
+        low: 2.6704
+      - high: 2.9845
+        low: 2.8274
+      - high: 3.1416
+        low: 2.9845

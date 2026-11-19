@@ -51,10 +51,13 @@ After installing or updating, **start a new conversation**. Skills are loaded wh
 conversation starts. In VS Code, run "Developer: Reload Window" if a new chat
 still doesn't see them. `/skills` lists what is loaded.
 
-**Other agents (Codex, etc.):** skills follow the
+**Other agents (Google Antigravity, Codex, etc.):** skills follow the
 [Agent Skills specification](https://agentskills.io/specification), so you can
-symlink a plugin's `skills/` directory into the agent's skill path, e.g.
-`ln -s $PWD/plugins/cms/skills ~/.agents/skills/cms`.
+symlink a plugin's `skills/` directory into the agent's skill path (e.g.
+`ln -s $PWD/plugins/cms/skills ~/.agents/skills/cms`). For **Google
+Antigravity**, run `./scripts/install_antigravity.sh` to install all marketplace
+skills and adapt `cms-analysis-coder` and `cms-results-validator` as custom
+subagents under `~/.gemini/config/` (pass `--copy` or `--dry-run` as needed).
 
 ## One-time setup on cmslpc
 
@@ -148,6 +151,23 @@ resumes from what exists:
 > `<remaining deliverables>`. If an earlier run failed, find out why first
 > (memory: `/usr/bin/time -v`). Append new notes to `SKILLS_USED.md`.
 
+### Multi-agent validation workflow (producer + clean-context reviewer)
+
+In Claude Code (via sequential `claude -p --agent ...` runs) or Google
+Antigravity Teamwork, pair the two subagents in separate contexts so the
+reviewer never inherits the producer's assumptions:
+
+1. **Specification (`analysis-spec-builder`):** freeze datasets, triggers,
+   event cleaning, JEC, histograms and falsifier gates in `specification.md`.
+2. **Producer (`cms-analysis-coder`):** implement the spec on a small subset,
+   scale to the full dataset, validate HEPData (`VALID=1`), and pass the
+   stdlib-only `check_results.py` physics gate (`SUMMARY=n/n`).
+3. **Clean-context ARC review (`cms-results-validator`):** spawn a fresh
+   validator instance that reads only `summary.json`, `hepdata/`, and primary
+   published CMS tables/macros, writing `comparison.json` and `COMPARISON.md`
+   with quantitative `CONSISTENT` / `TENSION` / `INCONSISTENT` /
+   `NOT COMPARABLE` verdicts.
+
 <!-- GENERATED:START -->
 
 ## Plugins
@@ -164,9 +184,9 @@ Skills for the CMS LPC analysis facility at Fermilab (cmslpc): HTCondor batch jo
 
 ---
 
-### `cms` (v0.4.0)
+### `cms` (v0.5.0)
 
-Core CMS analysis plugin: CMSSW releases and architectures, OS containers, EDM modules, cmsRun configuration, EDM file inspection, and the Scikit-HEP stack on NanoAOD (Awkward Array, vector, hist), plus analysis specifications.
+Core CMS analysis plugin: CMSSW releases and architectures, OS containers, EDM modules, cmsRun configuration, EDM file inspection, Heavy-Ion PbPb and Run-1 EDM RECO streaming, and the Scikit-HEP stack on NanoAOD (Awkward Array, vector, hist), plus analysis specifications.
 
 **Subagents:**
 
@@ -182,6 +202,7 @@ Core CMS analysis plugin: CMSSW releases and architectures, OS containers, EDM m
 | `analysis-spec-builder` | Turn an analysis request into a structured CMS specification.md (datasets, cuts, histograms, tools)                                            |
 | `awkward-array`         | Jagged arrays with Awkward 2 on CMS NanoAOD (records, selection, combinatorics, indices, I/O)                                                  |
 | `cmssw`                 | Release areas, architectures and containers, EDM modules, cmsRun configs, EDM file tools                                                       |
+| `heavy-ion-reco`        | Heavy-Ion PbPb centrality, APD/HCAL noise cleaning, UE-subtracted jets, and Run-1 EDM RECO streaming with uproot                               |
 | `hepdata`               | HEPData records with hepdata_lib, validated offline, following CMS requirements                                                                |
 | `hist`                  | Histograms with hist + mplhep for CMS (weights, normalisation, UHI, CMS-style plots)                                                           |
 | `muon-tag-and-probe`    | Muon ID, isolation and trigger efficiencies and scale factors from Z → μμ tag and probe in NanoAOD, with the Muon POG correctionlib comparison |
@@ -219,11 +240,12 @@ agent, with its outputs committed. Each directory has a `README.md` (goal,
 results, how to reproduce), the `PROMPT.md` given to the agent, and a
 `SKILLS_USED.md` saying where the skills helped and where they fell short.
 
-| Validation                                                                   | Tests                                                                                        | Result                                                                           |
-| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| [validation/dijet-2016](validation/dijet-2016)                               | `cms-analysis-coder`, `trigger-efficiency`, `hepdata`, plus the core skills and `lpc-condor` | b-tagged dijet search on 142 Open Data files: 7 plot types, fits, HEPData        |
-| [validation/dijet-2016/cms-comparison](validation/dijet-2016/cms-comparison) | `cms-results-validator`                                                                      | 21 tests of the dijet and dimuon Open Data results against 6 CMS HEPData records |
-| [validation/lpc-condor](validation/lpc-condor)                               | `lpc-condor`                                                                                 | Two agent runs of split → submit → check → resubmit; all jobs exit 0             |
+| Validation                                                                   | Tests                                                                                            | Result                                                                                       |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| [validation/dijet-2016](validation/dijet-2016)                               | `cms-analysis-coder`, `trigger-efficiency`, `hepdata`, plus the core skills and `lpc-condor`     | b-tagged dijet search on 142 Open Data files: 7 plot types, fits, HEPData                    |
+| [validation/dijet-2016/cms-comparison](validation/dijet-2016/cms-comparison) | `cms-results-validator`                                                                          | 21 tests of the dijet and dimuon Open Data results against 6 CMS HEPData records             |
+| [validation/hin-10-004](validation/hin-10-004)                               | `heavy-ion-reco`, `cms-analysis-coder`, `cms-results-validator`, `trigger-efficiency`, `hepdata` | 2010 2.76 TeV PbPb dijet quenching (CMS-HIN-10-004) on 2,154 RECO files + 12-test ARC review |
+| [validation/lpc-condor](validation/lpc-condor)                               | `lpc-condor`                                                                                     | Two agent runs of split → submit → check → resubmit; all jobs exit 0                         |
 
 To rerun one:
 

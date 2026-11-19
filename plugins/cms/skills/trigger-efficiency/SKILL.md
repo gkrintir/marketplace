@@ -36,6 +36,9 @@ JetHT Open Data.
 - Quoting a plateau efficiency and its uncertainty in `summary.json` or a note
 - **Not** for muon trigger, ID or isolation efficiencies with tag and probe on
   Z → μμ: use the `muon-tag-and-probe` skill (and the POG correctionlib JSON)
+- For Run-1 CMS EDM `RECO` files (e.g. 2010 Heavy-Ion Open Data where paths
+  live in `edm::TriggerResults` + `ParameterSets` instead of `HLT_*` booleans),
+  use this skill together with `heavy-ion-reco`
 
 ## Key Concepts
 
@@ -153,6 +156,10 @@ event filters, so use it as a check, not as a result.
 - **MC trigger emulation** was not validated here. The dijet validation
   requires m_jj above the data plateau and applies no trigger to MC. Do the
   same, or validate the MC HLT bits against data first.
+- **Legacy Run-1 `.C` trigger plots use `TGraphAsymmErrors::BayesDivide`.**
+  ROOT 5's `BayesDivide` computes shortest 68.3% highest-posterior-density
+  (HPD) intervals on `Beta(k+1, n-k+1)`, which differ slightly from central
+  Clopper-Pearson quantiles (`scipy.stats.beta.ppf`) at low denominator counts.
 - **Memory.** Read only the needed branches (`tree.iterate(cols,
 step_size=...)`). The demo peaks at 2 GB for 6 JetHT files.
 
