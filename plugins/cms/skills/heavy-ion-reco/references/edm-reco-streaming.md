@@ -83,6 +83,12 @@ For `edmTriggerResults_TriggerResults__HLT.obj`:
   stores hex-encoded ASCII path names. Cache the `pset_hash -> [path_names]`
   dictionary to JSON: only a handful of HLT menus exist across an entire run era,
   eliminating a full `ParameterSets` read on every subsequent file.
+- **Avoid `branch.entries_to_ranges_or_baskets(0, branch.num_entries)` over HTTP:**
+  on `ParameterSets/IdToParameterSetsBlobs` (and other branches with unpopulated
+  embedded basket-entry tables), `entries_to_ranges_or_baskets` falls back to
+  scanning 80-byte `TBasket` headers one HTTP round-trip at a time (~31 s/file),
+  whereas indexing `fBasketSeek[:nb]` and `fBasketBytes[:nb]` directly coalesces
+  the read into ~0.7 s.
 
 ## Split (`PromptReco`) vs unsplit (`ZS-v2`) collections
 

@@ -31,7 +31,7 @@ First write `specification.md` using `analysis-spec-builder` and
 **Inputs (CERN Open Data, `https://opendata.cern.ch/eos/opendata/...`, no proxy required):**
 
 - Primary jet-triggered PbPb data: CERN Open Data Record `14010`
-  (`/HICorePhysics/HIRun2010-PromptReco-v3/RECO`, 2,154 certified EDM `RECO` files).
+  (`/HICorePhysics/HIRun2010-PromptReco-v3/RECO`, 2,154 of 4,640 Golden-JSON certified EDM `RECO` files).
 - Minimum-bias PbPb reference data: CERN Open Data Record `14011`
   (`/HIAllPhysics/HIRun2010-ZS-v2/RECO`, sample >=10 certified files across the
   run range for minimum-bias `E_HF` centrality calibration and low-`p_T`

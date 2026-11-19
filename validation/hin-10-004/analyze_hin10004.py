@@ -331,26 +331,24 @@ def classify_centrality_idx(hf_hit_sum_gev: np.ndarray) -> np.ndarray:
 
 
 def read_all_baskets_coalesced(branch) -> list:
-    """Fetch all TBaskets of a branch in one coalesced HTTP chunk request."""
+    """Fetch all TBaskets of a branch via TBranch fBasketSeek/fBasketBytes tables (zero header scans)."""
     if branch.num_entries == 0 or branch.num_baskets == 0:
         return []
-    rob = branch.entries_to_ranges_or_baskets(0, branch.num_entries)
-    ranges = [r for _, r in rob if isinstance(r, tuple)]
+    nb = int(branch.num_baskets)
+    seeks = np.asarray(branch.member("fBasketSeek")[:nb], dtype=np.int64)
+    nbytes = np.asarray(branch.member("fBasketBytes")[:nb], dtype=np.int64)
+    valid = [(bi, (int(seeks[bi]), int(seeks[bi] + nbytes[bi]))) for bi in range(nb) if seeks[bi] > 0 and nbytes[bi] > 0]
+    if not valid:
+        return []
+    ranges = [r for _, r in valid]
     notif = queue.Queue()
-    chunks = branch.file.source.chunks(ranges, notifications=notif) if ranges else []
-    chunk_iter = iter(chunks)
-    baskets = []
-    for bi, r in rob:
-        if isinstance(r, tuple):
-            chk = next(chunk_iter)
-            cur = uproot.source.cursor.Cursor(chk.start)
-            bsk = uproot.models.TBasket.Model_TBasket.read(
-                chk, cur, {"basket_num": bi}, branch.file, branch.file, branch
-            )
-            baskets.append(bsk)
-        else:
-            baskets.append(r)
-    return baskets
+    chunks = branch.file.source.chunks(ranges, notifications=notif)
+    return [
+        uproot.models.TBasket.Model_TBasket.read(
+            chk, uproot.source.cursor.Cursor(chk.start), {"basket_num": bi}, branch.file, branch.file, branch
+        )
+        for (bi, _), chk in zip(valid, chunks)
+    ]
 
 
 def read_selected_baskets(branch, entry_indices: np.ndarray) -> dict[int, bytes]:
